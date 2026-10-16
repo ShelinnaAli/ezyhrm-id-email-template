@@ -17,16 +17,51 @@ Semua template telah dirancang dengan standar baku **Email Client Best Practice*
 ├── leave-request-to-hr.html            # Template 5: Email Pemberitahuan Pengajuan Cuti Dibuat (ke Tim HR)
 ├── claim-request-to-approver.html      # Template 6: Email Permintaan Persetujuan Klaim (ke Approver / Atasan)
 ├── claim-request-to-hr.html            # Template 7: Email Pemberitahuan Pengajuan Klaim Dibuat (ke Tim HR)
+├── submission-status-update.html       # Template 8: Master Status Update (Approve / Reject ke Employee & HR)
+├── payslip-published-to-employee.html  # Template 9: Notifikasi Slip Gaji Diterbitkan (ke Karyawan)
+├── contract-end-notification.html      # Template 10: Master Notifikasi Berakhir Kontrak (Manager, Approver & HR)
 ├── assets/
 │   ├── ezyhrmLogo.png                  # Logo EzyHRM (PNG Transparan High-Res)
 │   ├── union1.png                      # Icon Dekoratif Aksen Hijau Atas (Semua Template)
 │   ├── union2.png                      # Icon Dekoratif Aksen Hijau Bawah (Semua Template)
 │   ├── magicWandIcon.png               # Ilustrasi Tongkat Sihir (untuk onboarding-to-employee)
-│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding-to-hr)
+│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding, payslip & contract)
 │   ├── laptopLockIcon.png              # Ilustrasi Kunci Laptop (untuk change-password-to-employee)
-│   └── formEditionIcon.png             # Ilustrasi Form Cuti & Klaim (untuk leave-request-* & claim-request-*)
+│   └── formEditionIcon.png             # Ilustrasi Form Cuti, Klaim & Submission Status
 └── README.md                           # Panduan integrasi & daftar binding data ini
 ```
+
+---
+
+## 🗺️ Matriks Pemetaan 23 Email Notification EzyHRM
+
+Sesuai *best practice* arsitektur email enterprise, seluruh **23 skenario email notifikasi** di EzyHRM didukung secara efisien oleh **10 master template** modular di atas:
+
+| No | Nama Notifikasi Email (Skenario Bisnis) | Penerima | Template HTML yang Digunakan |
+| :---: | :--- | :--- | :--- |
+| 1 | Onboarding Welcome & Account Credential | Karyawan Baru | `onboarding-to-employee-email.html` |
+| 2 | Onboarding Completion Notification | Tim HR | `onboarding-to-hr-email.html` |
+| 3 | Password Reset Request | Karyawan | `change-password-to-employee.html` |
+| 4 | Leave - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` |
+| 5 | Leave - Request Submission Notification | Tim HR | `leave-request-to-hr.html` |
+| 6 | Claim - Request Submission Notification | Approver / Atasan | `claim-request-to-approver.html` |
+| 7 | Claim - Request Submission Notification | Tim HR & Finance | `claim-request-to-hr.html` |
+| 8 | Overtime - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
+| 9 | Overtime - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
+| 10 | Attendance - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
+| 11 | Attendance - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
+| 12 | Data Profile - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
+| 13 | Data Profile - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
+| 14 | Submission Status Update: Approve | Karyawan | `submission-status-update.html` *(status_badge: DISETUJUI)* |
+| 15 | Submission Status Update: Approve | Tim HR | `submission-status-update.html` *(status_badge: DISETUJUI)* |
+| 16 | Submission Status Update: Reject | Karyawan | `submission-status-update.html` *(status_badge: DITOLAK)* |
+| 17 | Submission Status Update: Reject | Tim HR | `submission-status-update.html` *(status_badge: DITOLAK)* |
+| 18 | Payslip Published Notification | Karyawan | `payslip-published-to-employee.html` |
+| 19 | Contract end - New notification | Manager | `contract-end-notification.html` |
+| 20 | Contract end - New notification | Approver & HR | `contract-end-notification.html` |
+| 21 | Contract end - Reminder | Approver | `contract-end-notification.html` |
+| 22 | Contract end - Reminder | Tim HR | `contract-end-notification.html` |
+| 23 | Contract end - Expired | Tim HR | `contract-end-notification.html` |
 
 > **Tips untuk NestJS:**  
 > File `.html` dapat langsung digunakan atau di-rename menjadi `.hbs` sesuai konfigurasi folder `templates` di modul mailer NestJS Anda.
@@ -248,6 +283,113 @@ Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam
 > **Catatan Teknis Template HR:**  
 > * Salam pembuka dibuat statis **`Halo Tim HR,`**.
 > * Template ini bersifat **informatif** (*FYI* / monitoring), sehingga **tidak memiliki tombol CTA persetujuan** (tindakan persetujuan dilakukan oleh Approver melalui Template 6).
+
+---
+
+## 📋 8. Template: `submission-status-update.html` (Master Status Update)
+> **Penerima:** Karyawan (`employee_email`) dan/atau Tim HR (`hr_email`)  
+> **Tujuan:** Notifikasi hasil keputusan pengajuan (Disetujui / Ditolak / Approved / Rejected) untuk semua modul (Cuti, Klaim, Lembur, Kehadiran, Perubahan Data Profil).
+
+### Skenario yang Didukung (4 Email):
+1. **Submission Approved (ke Karyawan):** `status_badge: "DISETUJUI"`, `status_color: "#2f855a"`, `status_bg: "#f0fdf4"`, `status_border: "#bbf7d0"`
+2. **Submission Approved (ke Tim HR):** `status_badge: "DISETUJUI"`
+3. **Submission Rejected (ke Karyawan):** `status_badge: "DITOLAK"`, `status_color: "#c53030"`, `status_bg: "#fff5f5"`, `status_border: "#fecaca"`
+4. **Submission Rejected (ke Tim HR):** `status_badge: "DITOLAK"`
+
+### Binding Variabel (Data Contract):
+
+| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
+| :--- | :--- | :--- | :--- |
+| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
+| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
+| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
+| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner (`assets/formEditionIcon.png`). |
+| `preheader_text` | `string` | **Ya** | Teks preview inbox. Contoh: `Pengajuan Cuti Tahunan Anda telah disetujui.` |
+| `banner_title` | `string` | **Ya** | Judul banner. Contoh: `Pengajuan Disetujui` atau `Status Pengajuan Ditolak` |
+| `banner_description` | `string` | **Ya** | Deskripsi banner. Contoh: `Pengajuan Anda telah diproses oleh atasan.` |
+| `recipient_name` | `string` | **Ya** | Nama penerima email pada salam pembuka. Contoh: `Alexander Christian` atau `Tim HR` |
+| `intro_message` | `string` | **Ya** | Kalimat pengantar. Contoh: `Berikut adalah pembaruan status terkait pengajuan yang telah ditinjau.` |
+| `employee_name` | `string` | **Ya** | Nama lengkap karyawan pemohon. |
+| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
+| `employment_type` | `string` | **Ya** | Status kepegawaian. Contoh: `Full-time (PKWTT)` |
+| `status_badge` | `string` | **Ya** | Label status pill: `DISETUJUI` atau `DITOLAK` |
+| `status_color` | `string` | Opsional | Warna teks badge (Hijau: `#2f855a`, Merah: `#c53030`). Default: `#2f855a` |
+| `status_bg` | `string` | Opsional | Background badge (Hijau: `#f0fdf4`, Merah: `#fff5f5`). Default: `#f0fdf4` |
+| `status_border` | `string` | Opsional | Border badge (Hijau: `#bbf7d0`, Merah: `#fecaca`). Default: `#bbf7d0` |
+| `submission_type` | `string` | **Ya** | Jenis formulir. Contoh: `Cuti Tahunan`, `Klaim Rawat Jalan`, `Lembur Proyek` |
+| `submission_date` | `string` | **Ya** | Tanggal pengajuan dibuat. Contoh: `15 Okt 2026` |
+| `processed_by` | `string` | **Ya** | Nama atasan yang memproses. Contoh: `Budi Santoso (Engineering Lead)` |
+| `decision_date` | `string` | **Ya** | Tanggal persetujuan/penolakan. Contoh: `16 Okt 2026` |
+| `approval_notes` | `string` | **Ya** | Catatan atasan atau alasan penolakan. Contoh: `Disetujui, silakan atur handover pekerjaan.` |
+| `view_detail_url` | `string` | **Ya** | URL tombol CTA "Lihat Detail Pengajuan". Contoh: `https://ezyhrm.id/requests/123` |
+| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
+| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+
+---
+
+## 📋 9. Template: `payslip-published-to-employee.html`
+> **Penerima:** Karyawan (`employee_email`)  
+> **Tujuan:** Notifikasi bahwa slip gaji resmi periode tertentu telah terbit dan siap diunduh melalui portal EzyHRM.
+
+### Binding Variabel (Data Contract):
+
+| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
+| :--- | :--- | :--- | :--- |
+| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
+| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
+| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
+| `job_profile_url` | `string` | **Ya** | URL ilustrasi profil pekerjaan (`assets/jobProfileIcon.png`). |
+| `employee_name` | `string` | **Ya** | Nama lengkap karyawan penerima slip gaji. |
+| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
+| `employment_type` | `string` | **Ya** | Status kepegawaian. |
+| `payroll_period` | `string` | **Ya** | Periode bulan & tahun penggajian. Contoh: `Oktober 2026` |
+| `payment_date` | `string` | **Ya** | Tanggal payroll ditransfer. Contoh: `25 Okt 2026` |
+| `bank_account` | `string` | **Ya** | Informasi rekening tujuan. Contoh: `BCA •••• 5678` |
+| `payment_status` | `string` | **Ya** | Status transfer. Contoh: `Berhasil Ditransfer` |
+| `payroll_type` | `string` | **Ya** | Tipe penggajian. Contoh: `Gaji Reguler Bulanan` atau `THR / Bonus` |
+| `payroll_notes` | `string` | **Ya** | Catatan tim finance/payroll. Contoh: `Dokumen slip gaji resmi terenkripsi demi keamanan data privasi Anda.` |
+| `download_payslip_url`| `string` | **Ya** | URL tombol CTA "Lihat & Unduh Slip Gaji". Contoh: `https://ezyhrm.id/payroll/payslips/2026-10` |
+| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
+| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+
+---
+
+## 📋 10. Template: `contract-end-notification.html` (Master Notifikasi Kontrak)
+> **Penerima:** Manager / Approver / Tim HR  
+> **Tujuan:** Notifikasi peringatan masa berakhirnya kontrak kerja karyawan (PKWT), pengingat evaluasi (*reminder*), serta pemberitahuan kontrak berakhir (*expired*).
+
+### Skenario yang Didukung (5 Email):
+1. **Contract end - New notification (MANAGER):** Peringatan awal (H-30 / H-60) kepada Manager untuk evaluasi performa karyawan.
+2. **Contract end - New notification (APPROVER & HR):** Peringatan awal kepada atasan & HR untuk menyiapkan administrasi evaluasi.
+3. **Contract end - Reminder (APPROVER):** Pengingat tindak lanjut (H-14 / H-7) kepada atasan.
+4. **Contract end - Reminder (HR):** Pengingat tindak lanjut (H-14 / H-7) kepada HR.
+5. **Contract end - Expired (HR):** Notifikasi resmi per hari ini bahwa masa kontrak karyawan telah berakhir (*status: Expired*).
+
+### Binding Variabel (Data Contract):
+
+| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
+| :--- | :--- | :--- | :--- |
+| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
+| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
+| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
+| `job_profile_url` | `string` | **Ya** | URL ilustrasi banner (`assets/jobProfileIcon.png`). |
+| `preheader_text` | `string` | **Ya** | Teks preview inbox. Contoh: `Masa kontrak kerja karyawan akan segera berakhir.` |
+| `banner_title` | `string` | **Ya** | Judul banner. Contoh: `Pemberitahuan Masa Kontrak` / `Pengingat Kontrak Kerja` / `Kontrak Kerja Berakhir` |
+| `banner_description` | `string` | **Ya** | Deskripsi banner. Contoh: `Informasi masa berakhir kontrak kerja PKWT untuk evaluasi perpanjangan.` |
+| `recipient_name` | `string` | **Ya** | Nama penerima: `Bpk/Ibu [Nama Manager]` / `Tim HR` |
+| `intro_message` | `string` | **Ya** | Kalimat pengantar detail sesuai skenario (New/Reminder/Expired). |
+| `employee_name` | `string` | **Ya** | Nama karyawan yang bersangkutan. |
+| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
+| `employment_type` | `string` | **Ya** | Tipe kepegawaian. Contoh: `PKWT (Kontrak)` |
+| `contract_start_date`| `string` | **Ya** | Tanggal awal kontrak kerja. Contoh: `01 Nov 2025` |
+| `contract_end_date` | `string` | **Ya** | Tanggal akhir kontrak kerja. Contoh: `31 Okt 2026` |
+| `remaining_days` | `string` | **Ya** | Sisa hari aktif. Contoh: `30 Hari Lagi`, `7 Hari Lagi`, `Berakhir Hari Ini` |
+| `contract_status` | `string` | **Ya** | Status tindak lanjut. Contoh: `Perlu Evaluasi Perpanjangan` atau `Expired` |
+| `department` | `string` | **Ya** | Departemen/Divisi karyawan. Contoh: `Technology & Engineering` |
+| `contract_notes` | `string` | **Ya** | Catatan tambahan HR / PIC. |
+| `contract_action_url`| `string` | **Ya** | URL tombol CTA "Tinjau Status Kontrak". Contoh: `https://ezyhrm.id/contracts/evaluations/789` |
+| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
+| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
 
 ---
 
@@ -482,6 +624,149 @@ export class NotificationService {
         claim_date: data.claimDate,
         total_claim_amount: data.totalAmount,
         claim_description: data.description,
+      },
+    });
+  }
+
+  /**
+   * 8. Kirim Pembaruan Status Pengajuan (Approve / Reject ke Karyawan / HR)
+   */
+  async sendSubmissionStatusUpdateEmail(data: {
+    recipientEmail: string;
+    recipientName: string;
+    employeeName: string;
+    position: string;
+    employmentType: string;
+    isApproved: boolean;
+    submissionType: string;
+    submissionDate: string;
+    processedBy: string;
+    decisionDate: string;
+    approvalNotes: string;
+    requestId: string | number;
+  }) {
+    const isApprove = data.isApproved;
+    await this.mailerService.sendMail({
+      to: data.recipientEmail,
+      subject: `Status Pengajuan ${data.submissionType}: ${isApprove ? 'Disetujui' : 'Ditolak'}`,
+      template: './submission-status-update',
+      context: {
+        ...this.getBrandAssets(),
+        form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
+        preheader_text: `Pengajuan ${data.submissionType} Anda telah ${isApprove ? 'disetujui' : 'ditolak'}.`,
+        banner_title: isApprove ? 'Pengajuan Disetujui' : 'Status Pengajuan Ditolak',
+        banner_description: isApprove
+          ? 'Kabar baik, pengajuan Anda telah disetujui oleh atasan.'
+          : 'Mohon maaf, pengajuan Anda tidak dapat disetujui oleh atasan.',
+        recipient_name: data.recipientName,
+        intro_message: `Berikut adalah rincian keputusan status untuk formulir pengajuan ${data.submissionType} Anda.`,
+        employee_name: data.employeeName,
+        position: data.position,
+        employment_type: data.employmentType,
+        status_badge: isApprove ? 'DISETUJUI' : 'DITOLAK',
+        status_color: isApprove ? '#2f855a' : '#c53030',
+        status_bg: isApprove ? '#f0fdf4' : '#fff5f5',
+        status_border: isApprove ? '#bbf7d0' : '#fecaca',
+        submission_type: data.submissionType,
+        submission_date: data.submissionDate,
+        processed_by: data.processedBy,
+        decision_date: data.decisionDate,
+        approval_notes: data.approvalNotes,
+        view_detail_url: `${this.appUrl}/requests/detail/${data.requestId}`,
+      },
+    });
+  }
+
+  /**
+   * 9. Kirim Notifikasi Slip Gaji Diterbitkan ke Karyawan
+   */
+  async sendPayslipPublishedEmail(data: {
+    employeeEmail: string;
+    employeeName: string;
+    position: string;
+    employmentType: string;
+    payrollPeriod: string;
+    paymentDate: string;
+    bankAccount: string;
+    payrollType?: string;
+    payrollNotes?: string;
+    payslipId: string | number;
+  }) {
+    await this.mailerService.sendMail({
+      to: data.employeeEmail,
+      subject: `Slip Gaji Periode ${data.payrollPeriod} Telah Terbit - EzyHRM`,
+      template: './payslip-published-to-employee',
+      context: {
+        ...this.getBrandAssets(),
+        job_profile_url: `${this.cdnBase}/jobProfileIcon.png`,
+        employee_name: data.employeeName,
+        position: data.position,
+        employment_type: data.employmentType,
+        payroll_period: data.payrollPeriod,
+        payment_date: data.paymentDate,
+        bank_account: data.bankAccount,
+        payment_status: 'Berhasil Ditransfer',
+        payroll_type: data.payrollType || 'Gaji Reguler Bulanan',
+        payroll_notes: data.payrollNotes || 'Dokumen slip gaji resmi terenkripsi demi keamanan data privasi Anda.',
+        download_payslip_url: `${this.appUrl}/payroll/payslips/${data.payslipId}`,
+      },
+    });
+  }
+
+  /**
+   * 10. Kirim Notifikasi Masa Berakhir Kontrak Kerja (Manager / Approver / HR)
+   */
+  async sendContractEndNotificationEmail(data: {
+    recipientEmail: string;
+    recipientName: string;
+    employeeName: string;
+    position: string;
+    employmentType: string;
+    scenario: 'NEW' | 'REMINDER' | 'EXPIRED';
+    contractStartDate: string;
+    contractEndDate: string;
+    remainingDaysText: string;
+    contractStatus: string;
+    department: string;
+    contractNotes: string;
+    contractId: string | number;
+  }) {
+    let bannerTitle = 'Pemberitahuan Masa Kontrak';
+    let bannerDesc = 'Informasi masa berakhir kontrak kerja PKWT untuk evaluasi perpanjangan.';
+    let intro = 'Sistem mencatat bahwa kontrak kerja karyawan di bawah ini akan segera berakhir.';
+
+    if (data.scenario === 'REMINDER') {
+      bannerTitle = 'Pengingat Kontrak Kerja';
+      bannerDesc = 'Pengingat evaluasi perpanjangan kontrak kerja karyawan yang mendekati jatuh tempo.';
+      intro = 'Mohon segera lakukan tindak lanjut atau konfirmasi evaluasi kontrak kerja karyawan berikut.';
+    } else if (data.scenario === 'EXPIRED') {
+      bannerTitle = 'Kontrak Kerja Berakhir';
+      bannerDesc = 'Pemberitahuan bahwa masa perjanjian kerja karyawan telah resmi berakhir.';
+      intro = 'Per hari ini masa kontrak kerja karyawan berikut telah berakhir dalam sistem EzyHRM.';
+    }
+
+    await this.mailerService.sendMail({
+      to: data.recipientEmail,
+      subject: `${bannerTitle}: ${data.employeeName} (${data.remainingDaysText})`,
+      template: './contract-end-notification',
+      context: {
+        ...this.getBrandAssets(),
+        job_profile_url: `${this.cdnBase}/jobProfileIcon.png`,
+        preheader_text: `${bannerTitle} untuk ${data.employeeName}.`,
+        banner_title: bannerTitle,
+        banner_description: bannerDesc,
+        recipient_name: data.recipientName,
+        intro_message: intro,
+        employee_name: data.employeeName,
+        position: data.position,
+        employment_type: data.employmentType,
+        contract_start_date: data.contractStartDate,
+        contract_end_date: data.contractEndDate,
+        remaining_days: data.remainingDaysText,
+        contract_status: data.contractStatus,
+        department: data.department,
+        contract_notes: data.contractNotes,
+        contract_action_url: `${this.appUrl}/contracts/evaluations/${data.contractId}`,
       },
     });
   }
