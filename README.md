@@ -15,6 +15,7 @@ Semua template telah dirancang dengan standar baku **Email Client Best Practice*
 ├── change-password-to-employee.html    # Template 3: Email Permintaan Perubahan Kata Sandi (ke Karyawan)
 ├── leave-request-to-approver.html      # Template 4: Email Permintaan Persetujuan Cuti (ke Approver / Atasan)
 ├── leave-request-to-hr.html            # Template 5: Email Pemberitahuan Pengajuan Cuti Dibuat (ke Tim HR)
+├── claim-request-to-approver.html      # Template 6: Email Permintaan Persetujuan Klaim (ke Approver / Atasan)
 ├── assets/
 │   ├── ezyhrmLogo.png                  # Logo EzyHRM (PNG Transparan High-Res)
 │   ├── union1.png                      # Icon Dekoratif Aksen Hijau Atas (Semua Template)
@@ -22,7 +23,7 @@ Semua template telah dirancang dengan standar baku **Email Client Best Practice*
 │   ├── magicWandIcon.png               # Ilustrasi Tongkat Sihir (untuk onboarding-to-employee)
 │   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding-to-hr)
 │   ├── laptopLockIcon.png              # Ilustrasi Kunci Laptop (untuk change-password-to-employee)
-│   └── formEditionIcon.png             # Ilustrasi Form Cuti (untuk leave-request-to-approver & to-hr)
+│   └── formEditionIcon.png             # Ilustrasi Form Cuti & Klaim (untuk leave-request-* & claim-request-*)
 └── README.md                           # Panduan integrasi & daftar binding data ini
 ```
 
@@ -178,6 +179,39 @@ Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam
 > **Catatan Teknis Template HR:**  
 > * Salam pembuka dibuat statis **`Halo Tim HR,`**.
 > * Template ini bersifat **informatif** (*FYI* / update status), sehingga **tidak memiliki tombol CTA persetujuan** (tindakan persetujuan dilakukan oleh Approver melalui Template 4).
+
+---
+
+## 📋 6. Template: `claim-request-to-approver.html`
+> **Penerima:** Approver / Manajer / Atasan (`approver_email`)  
+> **Tujuan:** Notifikasi pengajuan klaim reimbursement dari anggota tim yang membutuhkan peninjauan dan persetujuan.
+
+### Struktur Card 1:
+1. **Header Top (3 Kolom Horizontal, Background White):** Berisi profil karyawan pemohon (Nama Karyawan, Posisi/Jabatan, dan Tipe Karyawan).
+2. **Detail Pengajuan Klaim (2 Kolom Grid, Background Card `#F4F4F4`):**
+   * **Kolom Kiri:** Tipe Klaim, Tanggal Transaksi, dan Tanggal Pengajuan Klaim.
+   * **Kolom Kanan:** Total Klaim dan Deskripsi Klaim.
+
+### Binding Variabel (Data Contract):
+
+| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
+| :--- | :--- | :--- | :--- |
+| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
+| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
+| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
+| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner pengajuan klaim (`assets/formEditionIcon.png`). |
+| `approver_name` | `string` | **Ya** | Nama atasan / approver penerima email pada salam pembuka. Contoh: `Budi Santoso` |
+| `employee_name` | `string` | **Ya** | Nama karyawan yang mengajukan klaim. Contoh: `Alexander Christian` |
+| `position` | `string` | **Ya** | Posisi / Jabatan karyawan pemohon. Contoh: `Senior Software Engineer` |
+| `employment_type` | `string` | **Ya** | Status kepegawaian karyawan pemohon. Contoh: `Full-time (PKWTT)` |
+| `claim_type` | `string` | **Ya** | Tipe klaim yang diajukan. Contoh: `Medical Reimbursement` atau `Transportasi & Perjalanan Dinas` |
+| `transaction_date` | `string` | **Ya** | Tanggal terjadinya transaksi/pengeluaran. Contoh: `14 Okt 2026` |
+| `claim_date` | `string` | **Ya** | Tanggal pengajuan klaim dibuat. Contoh: `16 Okt 2026` |
+| `total_claim_amount` | `string` | **Ya** | Jumlah total biaya klaim yang diajukan. Contoh: `Rp 1.250.000` |
+| `claim_description` | `string` | **Ya** | Deskripsi / rincian pengeluaran klaim. Contoh: `Biaya rawat jalan dan resep obat klinik Kimia Farma` |
+| `approve_claim_url` | `string` | **Ya** | URL tujuan tombol CTA "Tinjau & Setujui Klaim". Contoh: `https://ezyhrm.id/claims/approvals/456` |
+| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
+| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
 
 ---
 
@@ -342,6 +376,43 @@ export class NotificationService {
         working_hours: data.workingHours,
         total_leave_days: data.totalDays,
         leave_description: data.description,
+      },
+    });
+  }
+
+  /**
+   * 6. Kirim Notifikasi Permintaan Persetujuan Klaim ke Approver
+   */
+  async sendClaimRequestToApproverEmail(data: {
+    approverEmail: string;
+    approverName: string;
+    employeeName: string;
+    position: string;
+    employmentType: string;
+    claimType: string;
+    transactionDate: string;
+    claimDate: string;
+    totalAmount: string;
+    description: string;
+    claimId: string | number;
+  }) {
+    await this.mailerService.sendMail({
+      to: data.approverEmail,
+      subject: `Pengajuan Klaim Membutuhkan Persetujuan: ${data.employeeName} (${data.claimType})`,
+      template: './claim-request-to-approver',
+      context: {
+        ...this.getBrandAssets(),
+        form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
+        approver_name: data.approverName,
+        employee_name: data.employeeName,
+        position: data.position,
+        employment_type: data.employmentType,
+        claim_type: data.claimType,
+        transaction_date: data.transactionDate,
+        claim_date: data.claimDate,
+        total_claim_amount: data.totalAmount,
+        claim_description: data.description,
+        approve_claim_url: `${this.appUrl}/claims/approvals/${data.claimId}`,
       },
     });
   }
