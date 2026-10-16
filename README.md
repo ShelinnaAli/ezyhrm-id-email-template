@@ -25,9 +25,15 @@ Repositori ini menerapkan arsitektur **Master Template Modular**. Cukup dengan *
 │   ├── union1.png                      # Icon Dekoratif Aksen Hijau Atas (Semua Template)
 │   ├── union2.png                      # Icon Dekoratif Aksen Hijau Bawah (Semua Template)
 │   ├── magicWandIcon.png               # Ilustrasi Tongkat Sihir (untuk onboarding-to-employee)
-│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding-to-hr, payslip, contract)
+│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding-to-hr)
 │   ├── laptopLockIcon.png              # Ilustrasi Kunci Laptop (untuk change-password-to-employee)
-│   └── formEditionIcon.png             # Ilustrasi Formulir (untuk request submission & status update)
+│   ├── formEditionIcon.png             # Ilustrasi Formulir (Cuti, Klaim, Lembur, Absensi, Data Profile)
+│   ├── taskListIcon.png                # Ilustrasi Checklist Sukses (untuk status update: APPROVE)
+│   ├── taskListRejectIcon.png          # Ilustrasi Dokumen Ditolak (untuk status update: REJECT)
+│   ├── moneyWalletIcon.png             # Ilustrasi Dompet & Keuangan (untuk payslip)
+│   ├── readDocumentIcon.png            # Ilustrasi Baca Dokumen (untuk contract end: NEW NOTIF)
+│   ├── wristWatchIcon.png              # Ilustrasi Arloji / Jam (untuk contract end: REMINDER)
+│   └── jobProfileExclamationIcon.png   # Ilustrasi Profil + Tanda Seru (untuk contract end: EXPIRED)
 └── README.md                           # Panduan integrasi & kontrak data ini
 ```
 
@@ -35,33 +41,33 @@ Repositori ini menerapkan arsitektur **Master Template Modular**. Cukup dengan *
 
 ## 🗺️ Matriks Pemetaan 23 Email Notification EzyHRM
 
-Gunakan tabel referensi cepat ini untuk mengetahui template mana yang dipanggil oleh backend untuk setiap skenario bisnis:
+Gunakan tabel referensi cepat ini untuk mengetahui template dan file gambar ilustrasi banner yang dipanggil backend untuk setiap skenario bisnis:
 
-| No | Modul / Skenario Bisnis | Penerima | Template HTML yang Digunakan | Parameter Kunci / Nilai |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | Onboarding Welcome & Credential | Karyawan Baru | `onboarding-to-employee-email.html` | Kredensial login sementara |
-| **2** | Onboarding Completion Checklist | Tim HR | `onboarding-to-hr-email.html` | Ringkasan tugas selesai |
-| **3** | Password Reset Request | Karyawan | `change-password-to-employee.html` | Token reset kata sandi |
-| **4** | Leave - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Cuti" |
-| **5** | Leave - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Cuti Dibuat" |
-| **6** | Claim - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Klaim" |
-| **7** | Claim - Request Submission | Tim HR & Finance | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Klaim Dibuat" |
-| **8** | Overtime - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Lembur" |
-| **9** | Overtime - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Lembur Dibuat" |
-| **10** | Attendance - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Persetujuan Koreksi Kehadiran" |
-| **11** | Attendance - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Koreksi Kehadiran Dibuat" |
-| **12** | Data Profile - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Persetujuan Pembaruan Profil" |
-| **13** | Data Profile - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Permintaan Pembaruan Profil Dibuat" |
-| **14** | Status Update: Approved | Karyawan | `submission-status-update.html` | `status_badge`: "DISETUJUI" |
-| **15** | Status Update: Approved | Tim HR | `submission-status-update.html` | `status_badge`: "DISETUJUI" |
-| **16** | Status Update: Rejected | Karyawan | `submission-status-update.html` | `status_badge`: "DITOLAK" |
-| **17** | Status Update: Rejected | Tim HR | `submission-status-update.html` | `status_badge`: "DITOLAK" |
-| **18** | Payslip Published Notification | Karyawan | `payslip-published-to-employee.html` | Informasi periode gaji & link unduh |
-| **19** | Contract End - New Notification | Manager | `contract-end-notification.html` | `banner_title`: "Pemberitahuan Masa Kontrak" (H-30/60) |
-| **20** | Contract End - New Notification | Approver & HR | `contract-end-notification.html` | `banner_title`: "Pemberitahuan Masa Kontrak" |
-| **21** | Contract End - Reminder | Approver | `contract-end-notification.html` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
-| **22** | Contract End - Reminder | Tim HR | `contract-end-notification.html` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
-| **23** | Contract End - Expired | Tim HR | `contract-end-notification.html` | `banner_title`: "Kontrak Kerja Berakhir" (Hari H) |
+| No | Modul / Skenario Bisnis | Penerima | Template HTML | File Ilustrasi Banner | Parameter Kunci / Nilai |
+| :---: | :--- | :--- | :--- | :--- | :--- |
+| **1** | Onboarding Welcome & Credential | Karyawan Baru | `onboarding-to-employee-email.html` | `magicWandIcon.png` | Kredensial login sementara |
+| **2** | Onboarding Completion Checklist | Tim HR | `onboarding-to-hr-email.html` | `jobProfileIcon.png` | Ringkasan tugas selesai |
+| **3** | Password Reset Request | Karyawan | `change-password-to-employee.html` | `laptopLockIcon.png` | Token reset kata sandi |
+| **4** | Leave - Request Submission | Approver | `request-submission-to-approver.html` | `formEditionIcon.png` | `banner_title`: "Permintaan Persetujuan Cuti" |
+| **5** | Leave - Request Submission | Tim HR | `request-submission-to-hr.html` | `formEditionIcon.png` | `banner_title`: "Pengajuan Cuti Dibuat" |
+| **6** | Claim - Request Submission | Approver | `request-submission-to-approver.html` | `formEditionIcon.png` | `banner_title`: "Permintaan Persetujuan Klaim" |
+| **7** | Claim - Request Submission | Tim HR & Fin | `request-submission-to-hr.html` | `formEditionIcon.png` | `banner_title`: "Pengajuan Klaim Dibuat" |
+| **8** | Overtime - Request Submission | Approver | `request-submission-to-approver.html` | `formEditionIcon.png` | `banner_title`: "Permintaan Persetujuan Lembur" |
+| **9** | Overtime - Request Submission | Tim HR | `request-submission-to-hr.html` | `formEditionIcon.png` | `banner_title`: "Pengajuan Lembur Dibuat" |
+| **10** | Attendance - Request Submission | Approver | `request-submission-to-approver.html` | `formEditionIcon.png` | `banner_title`: "Persetujuan Koreksi Kehadiran" |
+| **11** | Attendance - Request Submission | Tim HR | `request-submission-to-hr.html` | `formEditionIcon.png` | `banner_title`: "Pengajuan Koreksi Kehadiran Dibuat" |
+| **12** | Data Profile - Request Submission | Approver | `request-submission-to-approver.html` | `formEditionIcon.png` | `banner_title`: "Persetujuan Pembaruan Profil" |
+| **13** | Data Profile - Request Submission | Tim HR | `request-submission-to-hr.html` | `formEditionIcon.png` | `banner_title`: "Permintaan Pembaruan Profil Dibuat" |
+| **14** | Status Update: Approved | Karyawan | `submission-status-update.html` | `taskListIcon.png` | `status_badge`: "DISETUJUI" |
+| **15** | Status Update: Approved | Tim HR | `submission-status-update.html` | `taskListIcon.png` | `status_badge`: "DISETUJUI" |
+| **16** | Status Update: Rejected | Karyawan | `submission-status-update.html` | `taskListRejectIcon.png` | `status_badge`: "DITOLAK" |
+| **17** | Status Update: Rejected | Tim HR | `submission-status-update.html` | `taskListRejectIcon.png` | `status_badge`: "DITOLAK" |
+| **18** | Payslip Published Notification | Karyawan | `payslip-published-to-employee.html` | `moneyWalletIcon.png` | Informasi periode gaji & link unduh |
+| **19** | Contract End - New Notification | Manager | `contract-end-notification.html` | `readDocumentIcon.png` | `banner_title`: "Pemberitahuan Masa Kontrak" (H-30/60) |
+| **20** | Contract End - New Notification | Approver & HR| `contract-end-notification.html` | `readDocumentIcon.png` | `banner_title`: "Pemberitahuan Masa Kontrak" |
+| **21** | Contract End - Reminder | Approver | `contract-end-notification.html` | `wristWatchIcon.png` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
+| **22** | Contract End - Reminder | Tim HR | `contract-end-notification.html` | `wristWatchIcon.png` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
+| **23** | Contract End - Expired | Tim HR | `contract-end-notification.html` | `jobProfileExclamationIcon.png`| `banner_title`: "Kontrak Kerja Berakhir" (Hari H) |
 
 ---
 
@@ -179,7 +185,7 @@ Sama persis dengan Template 4 di atas, dengan perbedaan:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
 | `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
-| `form_edition_url` | `string` | **Ya** | `assets/formEditionIcon.png` |
+| `status_icon_url` | `string` | **Ya** | `assets/taskListIcon.png` (Approve) atau `assets/taskListRejectIcon.png` (Reject) |
 | `preheader_text` | `string` | **Ya** | Teks preview inbox. |
 | `banner_title` | `string` | **Ya** | Contoh: `Pengajuan Disetujui` atau `Status Pengajuan Ditolak` |
 | `banner_description` | `string` | **Ya** | Contoh: `Pengajuan Anda telah diproses oleh atasan.` |
@@ -209,7 +215,7 @@ Sama persis dengan Template 4 di atas, dengan perbedaan:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
 | `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
-| `job_profile_url` | `string` | **Ya** | `assets/jobProfileIcon.png` |
+| `money_wallet_url` | `string` | **Ya** | `assets/moneyWalletIcon.png` |
 | `employee_name` | `string` | **Ya** | Nama lengkap karyawan penerima slip gaji. |
 | `position` | `string` | **Ya** | Posisi karyawan. |
 | `employment_type` | `string` | **Ya** | Status kepegawaian. |
@@ -231,7 +237,7 @@ Sama persis dengan Template 4 di atas, dengan perbedaan:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
 | `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
-| `job_profile_url` | `string` | **Ya** | `assets/jobProfileIcon.png` |
+| `contract_icon_url` | `string` | **Ya** | `assets/readDocumentIcon.png` (New Notif), `assets/wristWatchIcon.png` (Reminder), atau `assets/jobProfileExclamationIcon.png` (Expired) |
 | `preheader_text` | `string` | **Ya** | Teks preview inbox. |
 | `banner_title` | `string` | **Ya** | Contoh: `Pemberitahuan Masa Kontrak` / `Pengingat Masa Kontrak Kerja` / `Kontrak Kerja Berakhir` |
 | `banner_description` | `string` | **Ya** | Deskripsi banner sesuai status evaluasi. |
@@ -463,13 +469,15 @@ export class NotificationService {
     requestId: string | number;
   }) {
     const isApprove = data.isApproved;
+    const iconName = isApprove ? 'taskListIcon.png' : 'taskListRejectIcon.png';
+
     await this.mailerService.sendMail({
       to: data.recipientEmail,
       subject: `Status Pengajuan ${data.submissionType}: ${isApprove ? 'Disetujui' : 'Ditolak'}`,
       template: './submission-status-update',
       context: {
         ...this.getBrandAssets(),
-        form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
+        status_icon_url: `${this.cdnBase}/${iconName}`,
         preheader_text: `Pengajuan ${data.submissionType} Anda telah ${isApprove ? 'disetujui' : 'ditolak'}.`,
         banner_title: isApprove ? 'Pengajuan Disetujui' : 'Status Pengajuan Ditolak',
         banner_description: isApprove
@@ -515,7 +523,7 @@ export class NotificationService {
       template: './payslip-published-to-employee',
       context: {
         ...this.getBrandAssets(),
-        job_profile_url: `${this.cdnBase}/jobProfileIcon.png`,
+        money_wallet_url: `${this.cdnBase}/moneyWalletIcon.png`,
         employee_name: data.employeeName,
         position: data.position,
         employment_type: data.employmentType,
@@ -551,15 +559,18 @@ export class NotificationService {
     let bannerTitle = 'Pemberitahuan Masa Kontrak';
     let bannerDesc = 'Informasi masa berakhir kontrak kerja PKWT untuk evaluasi perpanjangan.';
     let intro = 'Sistem mencatat bahwa kontrak kerja karyawan di bawah ini akan segera berakhir.';
+    let iconName = 'readDocumentIcon.png';
 
     if (data.scenario === 'REMINDER') {
       bannerTitle = 'Pengingat Masa Kontrak Kerja';
       bannerDesc = 'Pengingat evaluasi perpanjangan kontrak kerja karyawan yang mendekati jatuh tempo.';
       intro = 'Mohon segera lakukan tindak lanjut atau konfirmasi evaluasi kontrak kerja karyawan berikut.';
+      iconName = 'wristWatchIcon.png';
     } else if (data.scenario === 'EXPIRED') {
       bannerTitle = 'Kontrak Kerja Berakhir';
       bannerDesc = 'Pemberitahuan bahwa masa perjanjian kerja karyawan telah resmi berakhir.';
       intro = 'Per hari ini masa kontrak kerja karyawan berikut telah berakhir dalam sistem EzyHRM.';
+      iconName = 'jobProfileExclamationIcon.png';
     }
 
     await this.mailerService.sendMail({
@@ -568,7 +579,7 @@ export class NotificationService {
       template: './contract-end-notification',
       context: {
         ...this.getBrandAssets(),
-        job_profile_url: `${this.cdnBase}/jobProfileIcon.png`,
+        contract_icon_url: `${this.cdnBase}/${iconName}`,
         preheader_text: `${bannerTitle} untuk ${data.employeeName}.`,
         banner_title: bannerTitle,
         banner_description: bannerDesc,
