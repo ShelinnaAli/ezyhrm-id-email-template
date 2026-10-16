@@ -1,76 +1,73 @@
 # Panduan Integrasi Template Email - EzyHRM
-## Email Notification Templates
+## Enterprise Email Notification Design System
 
-Dokumen ini adalah referensi kontrak data (*data contract*) untuk tim backend (NestJS) dalam memasang template email notifikasi sistem **EzyHRM**.
+Dokumen ini adalah referensi kontrak data (*data contract*) dan panduan integrasi resmi untuk tim backend (NestJS) dalam memasang template email notifikasi sistem **EzyHRM**.
 
-Semua template telah dirancang dengan standar baku **Email Client Best Practice** (menggunakan *table-based layout*, *inline CSS*, font **Inter**, *Outlook VML bulletproof button*, serta *mobile-responsive styling*).
+Seluruh template telah dirancang menggunakan standar baku **Email Client Best Practice** (*table-based layout*, *inline CSS*, font **Inter**, *Outlook VML bulletproof button*, serta *mobile-responsive styling*).
 
 ---
 
 ## 📁 Struktur File & Aset
 
+Repositori ini menerapkan arsitektur **Master Template Modular**. Cukup dengan **8 file master template**, seluruh **23 skenario email notifikasi** di EzyHRM dapat dijalankan secara konsisten, efisien, dan mudah dipelihara.
+
 ```text
-├── onboarding-to-employee-email.html   # Template 1: Email Selamat Datang & Kredensial (ke Karyawan)
-├── onboarding-to-hr-email.html         # Template 2: Email Onboarding Selesai (ke Tim HR)
-├── change-password-to-employee.html    # Template 3: Email Permintaan Perubahan Kata Sandi (ke Karyawan)
-├── leave-request-to-approver.html      # Template 4: Email Permintaan Persetujuan Cuti (ke Approver / Atasan)
-├── leave-request-to-hr.html            # Template 5: Email Pemberitahuan Pengajuan Cuti Dibuat (ke Tim HR)
-├── claim-request-to-approver.html      # Template 6: Email Permintaan Persetujuan Klaim (ke Approver / Atasan)
-├── claim-request-to-hr.html            # Template 7: Email Pemberitahuan Pengajuan Klaim Dibuat (ke Tim HR)
-├── submission-status-update.html       # Template 8: Master Status Update (Approve / Reject ke Employee & HR)
-├── payslip-published-to-employee.html  # Template 9: Notifikasi Slip Gaji Diterbitkan (ke Karyawan)
-├── contract-end-notification.html      # Template 10: Master Notifikasi Berakhir Kontrak (Manager, Approver & HR)
+├── onboarding-to-employee-email.html   # Template 1: Selamat Datang & Kredensial Akun (ke Karyawan Baru)
+├── onboarding-to-hr-email.html         # Template 2: Checklist Onboarding Selesai (ke Tim HR)
+├── change-password-to-employee.html    # Template 3: Permintaan Perubahan Kata Sandi (ke Karyawan)
+├── request-submission-to-approver.html  # Template 4: Master Pengajuan Membutuhkan Persetujuan (ke Approver / Atasan)
+├── request-submission-to-hr.html        # Template 5: Master Notifikasi Pengajuan Baru (ke Tim HR / Pencatatan)
+├── submission-status-update.html       # Template 6: Master Pembaruan Status Approve / Reject (ke Karyawan & HR)
+├── payslip-published-to-employee.html  # Template 7: Pemberitahuan Terbit Slip Gaji (ke Karyawan)
+├── contract-end-notification.html      # Template 8: Master Masa Berakhir Kontrak / Reminder / Expired (Manager, Approver, HR)
 ├── assets/
 │   ├── ezyhrmLogo.png                  # Logo EzyHRM (PNG Transparan High-Res)
 │   ├── union1.png                      # Icon Dekoratif Aksen Hijau Atas (Semua Template)
 │   ├── union2.png                      # Icon Dekoratif Aksen Hijau Bawah (Semua Template)
 │   ├── magicWandIcon.png               # Ilustrasi Tongkat Sihir (untuk onboarding-to-employee)
-│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding, payslip & contract)
+│   ├── jobProfileIcon.png              # Ilustrasi Profil Pekerjaan (untuk onboarding-to-hr, payslip, contract)
 │   ├── laptopLockIcon.png              # Ilustrasi Kunci Laptop (untuk change-password-to-employee)
-│   └── formEditionIcon.png             # Ilustrasi Form Cuti, Klaim & Submission Status
-└── README.md                           # Panduan integrasi & daftar binding data ini
+│   └── formEditionIcon.png             # Ilustrasi Formulir (untuk request submission & status update)
+└── README.md                           # Panduan integrasi & kontrak data ini
 ```
 
 ---
 
 ## 🗺️ Matriks Pemetaan 23 Email Notification EzyHRM
 
-Sesuai *best practice* arsitektur email enterprise, seluruh **23 skenario email notifikasi** di EzyHRM didukung secara efisien oleh **10 master template** modular di atas:
+Gunakan tabel referensi cepat ini untuk mengetahui template mana yang dipanggil oleh backend untuk setiap skenario bisnis:
 
-| No | Nama Notifikasi Email (Skenario Bisnis) | Penerima | Template HTML yang Digunakan |
-| :---: | :--- | :--- | :--- |
-| 1 | Onboarding Welcome & Account Credential | Karyawan Baru | `onboarding-to-employee-email.html` |
-| 2 | Onboarding Completion Notification | Tim HR | `onboarding-to-hr-email.html` |
-| 3 | Password Reset Request | Karyawan | `change-password-to-employee.html` |
-| 4 | Leave - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` |
-| 5 | Leave - Request Submission Notification | Tim HR | `leave-request-to-hr.html` |
-| 6 | Claim - Request Submission Notification | Approver / Atasan | `claim-request-to-approver.html` |
-| 7 | Claim - Request Submission Notification | Tim HR & Finance | `claim-request-to-hr.html` |
-| 8 | Overtime - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
-| 9 | Overtime - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
-| 10 | Attendance - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
-| 11 | Attendance - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
-| 12 | Data Profile - Request Submission Notification | Approver / Atasan | `leave-request-to-approver.html` *(atau blueprint klaim)* |
-| 13 | Data Profile - Request Submission Notification | Tim HR | `leave-request-to-hr.html` *(atau blueprint klaim)* |
-| 14 | Submission Status Update: Approve | Karyawan | `submission-status-update.html` *(status_badge: DISETUJUI)* |
-| 15 | Submission Status Update: Approve | Tim HR | `submission-status-update.html` *(status_badge: DISETUJUI)* |
-| 16 | Submission Status Update: Reject | Karyawan | `submission-status-update.html` *(status_badge: DITOLAK)* |
-| 17 | Submission Status Update: Reject | Tim HR | `submission-status-update.html` *(status_badge: DITOLAK)* |
-| 18 | Payslip Published Notification | Karyawan | `payslip-published-to-employee.html` |
-| 19 | Contract end - New notification | Manager | `contract-end-notification.html` |
-| 20 | Contract end - New notification | Approver & HR | `contract-end-notification.html` |
-| 21 | Contract end - Reminder | Approver | `contract-end-notification.html` |
-| 22 | Contract end - Reminder | Tim HR | `contract-end-notification.html` |
-| 23 | Contract end - Expired | Tim HR | `contract-end-notification.html` |
-
-> **Tips untuk NestJS:**  
-> File `.html` dapat langsung digunakan atau di-rename menjadi `.hbs` sesuai konfigurasi folder `templates` di modul mailer NestJS Anda.
+| No | Modul / Skenario Bisnis | Penerima | Template HTML yang Digunakan | Parameter Kunci / Nilai |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | Onboarding Welcome & Credential | Karyawan Baru | `onboarding-to-employee-email.html` | Kredensial login sementara |
+| **2** | Onboarding Completion Checklist | Tim HR | `onboarding-to-hr-email.html` | Ringkasan tugas selesai |
+| **3** | Password Reset Request | Karyawan | `change-password-to-employee.html` | Token reset kata sandi |
+| **4** | Leave - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Cuti" |
+| **5** | Leave - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Cuti Dibuat" |
+| **6** | Claim - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Klaim" |
+| **7** | Claim - Request Submission | Tim HR & Finance | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Klaim Dibuat" |
+| **8** | Overtime - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Permintaan Persetujuan Lembur" |
+| **9** | Overtime - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Lembur Dibuat" |
+| **10** | Attendance - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Persetujuan Koreksi Kehadiran" |
+| **11** | Attendance - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Pengajuan Koreksi Kehadiran Dibuat" |
+| **12** | Data Profile - Request Submission | Approver / Atasan | `request-submission-to-approver.html` | `banner_title`: "Persetujuan Pembaruan Profil" |
+| **13** | Data Profile - Request Submission | Tim HR | `request-submission-to-hr.html` | `banner_title`: "Permintaan Pembaruan Profil Dibuat" |
+| **14** | Status Update: Approved | Karyawan | `submission-status-update.html` | `status_badge`: "DISETUJUI" |
+| **15** | Status Update: Approved | Tim HR | `submission-status-update.html` | `status_badge`: "DISETUJUI" |
+| **16** | Status Update: Rejected | Karyawan | `submission-status-update.html` | `status_badge`: "DITOLAK" |
+| **17** | Status Update: Rejected | Tim HR | `submission-status-update.html` | `status_badge`: "DITOLAK" |
+| **18** | Payslip Published Notification | Karyawan | `payslip-published-to-employee.html` | Informasi periode gaji & link unduh |
+| **19** | Contract End - New Notification | Manager | `contract-end-notification.html` | `banner_title`: "Pemberitahuan Masa Kontrak" (H-30/60) |
+| **20** | Contract End - New Notification | Approver & HR | `contract-end-notification.html` | `banner_title`: "Pemberitahuan Masa Kontrak" |
+| **21** | Contract End - Reminder | Approver | `contract-end-notification.html` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
+| **22** | Contract End - Reminder | Tim HR | `contract-end-notification.html` | `banner_title`: "Pengingat Masa Kontrak Kerja" (H-14/7) |
+| **23** | Contract End - Expired | Tim HR | `contract-end-notification.html` | `banner_title`: "Kontrak Kerja Berakhir" (Hari H) |
 
 ---
 
 ## 🎨 Aset Gambar Bersama (Global Brand Assets)
 
-Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam:
+Setiap template email menggunakan aset visual brand EzyHRM yang seragam:
 
 | Nama Variabel | Tipe Data | Wajib? | File Sumber | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- | :--- |
@@ -84,330 +81,178 @@ Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam
 
 ## 📋 1. Template: `onboarding-to-employee-email.html`
 > **Penerima:** Karyawan Baru (`employee_email`)  
-> **Tujuan:** Notifikasi pembuatan akun karyawan baru, memberikan kredensial sementara, dan instruksi aktivasi.
+> **Tujuan:** Notifikasi penyambutan karyawan baru, memberikan kredensial login sementara, dan tautan aktivasi akun.
 
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `banner_wand_url` | `string` | **Ya** | URL ilustrasi banner tongkat sihir (`assets/magicWandIcon.png`). |
-| `employee_name` | `string` | **Ya** | Nama lengkap karyawan baru. Contoh: `Alexander Christian` |
-| `employee_email` | `string` | **Ya** | Alamat email login akun karyawan. Contoh: `alexander@company.com` |
-| `temporary_password` | `string` | **Ya** | Kata sandi sementara yang di-generate sistem. Contoh: `Welcome2026!` |
-| `login_url` | `string` | **Ya** | URL tujuan tombol CTA "Masuk Sekarang" & fallback link. Contoh: `https://ezyhrm.id/login` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `banner_wand_url` | `string` | **Ya** | `assets/magicWandIcon.png` |
+| `employee_name` | `string` | **Ya** | Nama lengkap karyawan. Contoh: `Alexander Christian` |
+| `employee_email` | `string` | **Ya** | Alamat email login akun. Contoh: `alexander@company.com` |
+| `temporary_password` | `string` | **Ya** | Kata sandi sementara dari sistem. Contoh: `Welcome2026!` |
+| `login_url` | `string` | **Ya** | URL tombol CTA "Masuk Sekarang". Contoh: `https://ezyhrm.id/login` |
 
 ---
 
 ## 📋 2. Template: `onboarding-to-hr-email.html`
-> **Penerima:** Tim HR (Email HR / PIC Onboarding)  
-> **Tujuan:** Memberitahukan Tim HR bahwa seorang karyawan telah resmi menyelesaikan seluruh tugas onboarding.
+> **Penerima:** Tim HR (Email HR / PIC Personalia)  
+> **Tujuan:** Memberitahukan Tim HR bahwa seorang karyawan telah resmi menyelesaikan seluruh tugas checklist onboarding.
 
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `job_profile_url` | `string` | **Ya** | URL ilustrasi banner onboarding (`assets/jobProfileIcon.png`). |
-| `employee_name` | `string` | **Ya** | Nama lengkap karyawan yang telah selesai onboarding. Contoh: `Alexander Christian` |
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `job_profile_url` | `string` | **Ya** | `assets/jobProfileIcon.png` |
+| `employee_name` | `string` | **Ya** | Nama lengkap karyawan yang selesai onboarding. |
 | `position` | `string` | **Ya** | Posisi / Jabatan karyawan. Contoh: `Senior Software Engineer` |
-| `employment_type` | `string` | **Ya** | Tipe kepegawaian. Contoh: `Full-time (PKWTT)` atau `Kontrak (PKWT)` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
-> **Catatan Salam Pembuka:**  
-> Pada template ini, salam pembuka dibuat statis **`Halo Tim HR,`** karena ditujukan khusus untuk internal tim HR.
+| `employment_type` | `string` | **Ya** | Tipe kepegawaian. Contoh: `Full-time (PKWTT)` |
 
 ---
 
 ## 📋 3. Template: `change-password-to-employee.html`
 > **Penerima:** Karyawan (`employee_email`)  
-> **Tujuan:** Notifikasi permintaan pembaruan / perubahan kata sandi akun karyawan lengkap dengan panduan tahapan keamanan.
+> **Tujuan:** Notifikasi permintaan reset / perubahan kata sandi akun karyawan lengkap dengan panduan keamanan.
 
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `laptop_lock_url` | `string` | **Ya** | URL ilustrasi banner kunci laptop (`assets/laptopLockIcon.png`). |
-| `employee_name` | `string` | **Ya** | Nama lengkap karyawan yang meminta reset kata sandi. Contoh: `Alexander Christian` |
-| `reset_password_url` | `string` | **Ya** | URL tautan reset kata sandi dengan token aman (pada tombol "Atur Ulang Kata Sandi"). Contoh: `https://ezyhrm.id/reset-password?token=xyz...` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
-> **Catatan Validitas Link:**  
-> Link reset kata sandi pada template ini diinformasikan hanya berlaku selama **60 menit**.
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `laptop_lock_url` | `string` | **Ya** | `assets/laptopLockIcon.png` |
+| `employee_name` | `string` | **Ya** | Nama lengkap karyawan. |
+| `reset_password_url` | `string` | **Ya** | URL tombol CTA "Atur Ulang Kata Sandi" (berlaku 60 menit). |
 
 ---
 
-## 📋 4. Template: `leave-request-to-approver.html`
+## 📋 4. Template: `request-submission-to-approver.html` (Master Request ke Approver)
 > **Penerima:** Approver / Manajer / Atasan (`approver_email`)  
-> **Tujuan:** Notifikasi pengajuan cuti dari anggota tim yang membutuhkan peninjauan dan persetujuan.
+> **Tujuan:** Master template untuk **seluruh pengajuan yang membutuhkan persetujuan atasan** (Cuti, Klaim, Lembur, Koreksi Absensi, Perubahan Profil).  
+> **Fitur:** Dilengkapi tombol aksi CTA *"Tinjau & Setujui"*.
 
-### Struktur Card 1:
-1. **Header Top (3 Kolom Horizontal, Background White):** Berisi profil karyawan pemohon (Nama Karyawan, Posisi/Jabatan, dan Tipe Karyawan).
-2. **Detail Pengajuan Cuti (2 Kolom Grid, Background Card `#F4F4F4`):**
-   * **Kolom Kiri:** Jenis Cuti, Tanggal Mulai, Tanggal Selesai, dan Durasi Jam Kerja.
-   * **Kolom Kanan:** Total Hari Cuti dan Deskripsi Cuti.
-
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner pengajuan cuti (`assets/formEditionIcon.png`). |
-| `approver_name` | `string` | **Ya** | Nama atasan / approver penerima email pada salam pembuka. Contoh: `Budi Santoso` |
-| `employee_name` | `string` | **Ya** | Nama karyawan yang mengajukan cuti. Contoh: `Alexander Christian` |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan pemohon. Contoh: `Senior Software Engineer` |
-| `employment_type` | `string` | **Ya** | Status kepegawaian karyawan pemohon. Contoh: `Full-time (PKWTT)` |
-| `leave_type` | `string` | **Ya** | Jenis cuti yang diajukan. Contoh: `Cuti Tahunan` atau `Cuti Khusus` |
-| `start_date` | `string` | **Ya** | Tanggal awal cuti. Contoh: `20 Okt 2026` |
-| `end_date` | `string` | **Ya** | Tanggal akhir cuti. Contoh: `22 Okt 2026` |
-| `working_hours` | `string` | **Ya** | Durasi jam kerja per hari. Contoh: `08:00 - 17:00 (8 Jam)` |
-| `total_leave_days` | `string` | **Ya** | Total hari cuti yang diambil. Contoh: `3 Hari Kerja` |
-| `leave_description` | `string` | **Ya** | Keterangan / alasan pengajuan cuti. Contoh: `Keperluan keluarga di luar kota` |
-| `approve_leave_url` | `string` | **Ya** | URL tujuan tombol CTA "Tinjau & Setujui Cuti". Contoh: `https://ezyhrm.id/leaves/approvals/123` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
-> 💡 **Panduan Penggunaan Kembali (*Reusability*) untuk Modul Lain ke Approver:**  
-> Template ini dirancang sebagai **Master Blueprint untuk seluruh pengajuan yang membutuhkan persetujuan atasan**. Backend NestJS dapat langsung menggunakannya untuk:
-> * **Overtime (Pengajuan Lembur):** Ganti teks banner menjadi *"Permintaan Persetujuan Lembur"*, isi kolom dengan tanggal lembur, jam mulai, jam selesai, total jam lembur, dan alasan lembur.
-> * **Attendance (Koreksi Absensi):** Ganti teks banner menjadi *"Persetujuan Koreksi Kehadiran"*, isi kolom dengan tanggal absensi, jam masuk/pulang baru, dan alasan koreksi.
-> * **Data Profile Change (Perubahan Data Karyawan):** Ganti teks banner menjadi *"Persetujuan Pembaruan Data Profil"*, isi kolom dengan jenis data yang diubah, nilai lama, dan nilai baru.
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `form_edition_url` | `string` | **Ya** | `assets/formEditionIcon.png` |
+| `preheader_text` | `string` | **Ya** | Contoh: `Pengajuan cuti baru dari Alexander Christian menunggu persetujuan Anda.` |
+| `banner_title` | `string` | **Ya** | Contoh: `Permintaan Persetujuan Cuti` / `Permintaan Persetujuan Klaim` / `Permintaan Persetujuan Lembur` |
+| `banner_description` | `string` | **Ya** | Contoh: `Mohon periksa dan setujui pengajuan cuti ini.` |
+| `approver_name` | `string` | **Ya** | Nama atasan penerima email. Contoh: `Budi Santoso` |
+| `intro_message` | `string` | **Ya** | Contoh: `Sebuah pengajuan cuti tahunan baru telah dikirimkan oleh anggota tim Anda.` |
+| `employee_name` | `string` | **Ya** | Nama karyawan pemohon. |
+| `position` | `string` | **Ya** | Posisi karyawan pemohon. |
+| `employment_type` | `string` | **Ya** | Tipe karyawan pemohon. Contoh: `Full-time (PKWTT)` |
+| `field1_label`, `field1_value` | `string` | **Ya** | Kolom 1 Kiri. Contoh: `Jenis Cuti` : `Cuti Tahunan` (atau `Tipe Klaim` : `Rawat Jalan`) |
+| `field2_label`, `field2_value` | `string` | **Ya** | Kolom 2 Kiri. Contoh: `Tanggal Mulai` : `20 Okt 2026` (atau `Tanggal Transaksi` : `14 Okt 2026`) |
+| `field3_label`, `field3_value` | `string` | **Ya** | Kolom 3 Kiri. Contoh: `Tanggal Selesai` : `22 Okt 2026` (atau `Tanggal Pengajuan` : `16 Okt 2026`) |
+| `field4_label`, `field4_value` | `string` | Opsional | Kolom 4 Kiri. Contoh: `Durasi Jam Kerja` : `08:00 - 17:00 (8 Jam)` |
+| `field5_label`, `field5_value` | `string` | **Ya** | Kolom 1 Kanan. Contoh: `Total Hari Cuti` : `3 Hari Kerja` (atau `Total Klaim` : `Rp 1.250.000`) |
+| `field6_label`, `field6_value` | `string` | **Ya** | Kolom 2 Kanan. Contoh: `Keterangan / Alasan` : `Keperluan keluarga di luar kota` |
+| `cta_text` | `string` | **Ya** | Teks tombol CTA. Contoh: `Tinjau & Setujui Cuti` |
+| `approve_url` | `string` | **Ya** | URL tombol persetujuan. Contoh: `https://ezyhrm.id/approvals/leaves/123` |
 
 ---
 
-## 📋 5. Template: `leave-request-to-hr.html`
-> **Penerima:** Tim HR (Email HR / PIC Personalia)  
-> **Tujuan:** Pemberitahuan informatif kepada HR bahwa terdapat pengajuan cuti baru yang telah dibuat dalam sistem dan sedang dalam proses peninjauan oleh approver terkait.
+## 📋 5. Template: `request-submission-to-hr.html` (Master Request ke HR)
+> **Penerima:** Tim HR / Finance / Personalia  
+> **Tujuan:** Master template untuk **pemberitahuan informatif ke HR mengenai pengajuan baru** (Cuti, Klaim, Lembur, Koreksi Absensi, Perubahan Profil).  
+> **Sifat:** Informatif (*FYI* / pencatatan), tanpa tombol CTA persetujuan.
 
-### Struktur Card 1:
-1. **Header Top (3 Kolom Horizontal, Background White):** Berisi profil karyawan pemohon (Nama Karyawan, Posisi/Jabatan, dan Tipe Karyawan).
-2. **Detail Pengajuan Cuti (2 Kolom Grid, Background Card `#F4F4F4`):**
-   * **Kolom Kiri:** Jenis Cuti, Tanggal Mulai, Tanggal Selesai, dan Durasi Jam Kerja.
-   * **Kolom Kanan:** Total Hari Cuti dan Deskripsi Cuti.
-
-### Binding Variabel (Data Contract):
-
-| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
-| :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner pengajuan cuti (`assets/formEditionIcon.png`). |
-| `employee_name` | `string` | **Ya** | Nama karyawan yang mengajukan cuti. Contoh: `Alexander Christian` |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan pemohon. Contoh: `Senior Software Engineer` |
-| `employment_type` | `string` | **Ya** | Status kepegawaian karyawan pemohon. Contoh: `Full-time (PKWTT)` |
-| `leave_type` | `string` | **Ya** | Jenis cuti yang diajukan. Contoh: `Cuti Tahunan` atau `Cuti Khusus` |
-| `start_date` | `string` | **Ya** | Tanggal awal cuti. Contoh: `20 Okt 2026` |
-| `end_date` | `string` | **Ya** | Tanggal akhir cuti. Contoh: `22 Okt 2026` |
-| `working_hours` | `string` | **Ya** | Durasi jam kerja per hari. Contoh: `08:00 - 17:00 (8 Jam)` |
-| `total_leave_days` | `string` | **Ya** | Total hari cuti yang diambil. Contoh: `3 Hari Kerja` |
-| `leave_description` | `string` | **Ya** | Keterangan / alasan pengajuan cuti. Contoh: `Keperluan keluarga di luar kota` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
-> **Catatan Teknis Template HR:**  
-> * Salam pembuka dibuat statis **`Halo Tim HR,`**.
-> * Template ini bersifat **informatif** (*FYI* / update status), sehingga **tidak memiliki tombol CTA persetujuan** (tindakan persetujuan dilakukan oleh Approver melalui Template 4).
-> 
-> 💡 **Panduan Penggunaan Kembali (*Reusability*) untuk Modul Lain ke HR:**  
-> Template ini juga berfungsi sebagai **Master Blueprint untuk seluruh pemberitahuan pengajuan baru ke Tim HR** (format informatif tanpa tombol aksi), termasuk:
-> * **Overtime Notification ke Tim HR:** Pemberitahuan bahwa ada pengajuan lembur yang telah dikirim ke atasan.
-> * **Attendance Notification ke Tim HR:** Pemberitahuan bahwa ada pengajuan koreksi absensi yang masuk.
-> * **Data Profile Notification ke Tim HR:** Pemberitahuan bahwa ada permintaan pembaruan data profil karyawan.
+### Binding Variabel:
+Sama persis dengan Template 4 di atas, dengan perbedaan:
+* Salam pembuka dibuat statis **`Halo Tim HR,`**.
+* Tidak memerlukan parameter `cta_text` dan `approve_url`.
 
 ---
 
-## 📋 6. Template: `claim-request-to-approver.html`
-> **Penerima:** Approver / Manajer / Atasan (`approver_email`)  
-> **Tujuan:** Notifikasi pengajuan klaim reimbursement dari anggota tim yang membutuhkan peninjauan dan persetujuan.
-
-### Struktur Card 1:
-1. **Header Top (3 Kolom Horizontal, Background White):** Berisi profil karyawan pemohon (Nama Karyawan, Posisi/Jabatan, dan Tipe Karyawan).
-2. **Detail Pengajuan Klaim (2 Kolom Grid, Background Card `#F4F4F4`):**
-   * **Kolom Kiri:** Tipe Klaim, Tanggal Transaksi, dan Tanggal Pengajuan Klaim.
-   * **Kolom Kanan:** Total Klaim dan Deskripsi Klaim.
-
-### Binding Variabel (Data Contract):
-
-| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
-| :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner pengajuan klaim (`assets/formEditionIcon.png`). |
-| `approver_name` | `string` | **Ya** | Nama atasan / approver penerima email pada salam pembuka. Contoh: `Budi Santoso` |
-| `employee_name` | `string` | **Ya** | Nama karyawan yang mengajukan klaim. Contoh: `Alexander Christian` |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan pemohon. Contoh: `Senior Software Engineer` |
-| `employment_type` | `string` | **Ya** | Status kepegawaian karyawan pemohon. Contoh: `Full-time (PKWTT)` |
-| `claim_type` | `string` | **Ya** | Tipe klaim yang diajukan. Contoh: `Medical Reimbursement` atau `Transportasi & Perjalanan Dinas` |
-| `transaction_date` | `string` | **Ya** | Tanggal terjadinya transaksi/pengeluaran. Contoh: `14 Okt 2026` |
-| `claim_date` | `string` | **Ya** | Tanggal pengajuan klaim dibuat. Contoh: `16 Okt 2026` |
-| `total_claim_amount` | `string` | **Ya** | Jumlah total biaya klaim yang diajukan. Contoh: `Rp 1.250.000` |
-| `claim_description` | `string` | **Ya** | Deskripsi / rincian pengeluaran klaim. Contoh: `Biaya rawat jalan dan resep obat klinik Kimia Farma` |
-| `approve_claim_url` | `string` | **Ya** | URL tujuan tombol CTA "Tinjau & Setujui Klaim". Contoh: `https://ezyhrm.id/claims/approvals/456` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
----
-
-## 📋 7. Template: `claim-request-to-hr.html`
-> **Penerima:** Tim HR (Email HR / Finance / PIC Personalia)  
-> **Tujuan:** Pemberitahuan informatif kepada HR bahwa terdapat pengajuan klaim reimbursement baru yang telah dibuat dalam sistem dan sedang dalam proses peninjauan oleh approver terkait untuk pemantauan anggaran HR & Finance.
-
-### Struktur Card 1:
-1. **Header Top (3 Kolom Horizontal, Background White):** Berisi profil karyawan pemohon (Nama Karyawan, Posisi/Jabatan, dan Tipe Karyawan).
-2. **Detail Pengajuan Klaim (2 Kolom Grid, Background Card `#F4F4F4`):**
-   * **Kolom Kiri:** Tipe Klaim, Tanggal Transaksi, dan Tanggal Pengajuan Klaim.
-   * **Kolom Kanan:** Total Klaim dan Deskripsi Klaim.
-
-### Binding Variabel (Data Contract):
-
-| Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
-| :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner pengajuan klaim (`assets/formEditionIcon.png`). |
-| `employee_name` | `string` | **Ya** | Nama karyawan yang mengajukan klaim. Contoh: `Alexander Christian` |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan pemohon. Contoh: `Senior Software Engineer` |
-| `employment_type` | `string` | **Ya** | Status kepegawaian karyawan pemohon. Contoh: `Full-time (PKWTT)` |
-| `claim_type` | `string` | **Ya** | Tipe klaim yang diajukan. Contoh: `Medical Reimbursement` atau `Transportasi & Perjalanan Dinas` |
-| `transaction_date` | `string` | **Ya** | Tanggal terjadinya transaksi/pengeluaran. Contoh: `14 Okt 2026` |
-| `claim_date` | `string` | **Ya** | Tanggal pengajuan klaim dibuat. Contoh: `16 Okt 2026` |
-| `total_claim_amount` | `string` | **Ya** | Jumlah total biaya klaim yang diajukan. Contoh: `Rp 1.250.000` |
-| `claim_description` | `string` | **Ya** | Deskripsi / rincian pengeluaran klaim. Contoh: `Biaya rawat jalan dan resep obat klinik Kimia Farma` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
-
-> **Catatan Teknis Template HR:**  
-> * Salam pembuka dibuat statis **`Halo Tim HR,`**.
-> * Template ini bersifat **informatif** (*FYI* / monitoring), sehingga **tidak memiliki tombol CTA persetujuan** (tindakan persetujuan dilakukan oleh Approver melalui Template 6).
-
----
-
-## 📋 8. Template: `submission-status-update.html` (Master Status Update)
+## 📋 6. Template: `submission-status-update.html` (Master Status Update)
 > **Penerima:** Karyawan (`employee_email`) dan/atau Tim HR (`hr_email`)  
-> **Tujuan:** Notifikasi hasil keputusan pengajuan (Disetujui / Ditolak / Approved / Rejected) untuk semua modul (Cuti, Klaim, Lembur, Kehadiran, Perubahan Data Profil).
+> **Tujuan:** Notifikasi hasil keputusan pengajuan (Disetujui / Ditolak) untuk seluruh modul (Cuti, Klaim, Lembur, Kehadiran, Profil).
 
 ### Skenario yang Didukung (4 Email):
-1. **Submission Approved (ke Karyawan):** `status_badge: "DISETUJUI"`, `status_color: "#2f855a"`, `status_bg: "#f0fdf4"`, `status_border: "#bbf7d0"`
-2. **Submission Approved (ke Tim HR):** `status_badge: "DISETUJUI"`
-3. **Submission Rejected (ke Karyawan):** `status_badge: "DITOLAK"`, `status_color: "#c53030"`, `status_bg: "#fff5f5"`, `status_border: "#fecaca"`
-4. **Submission Rejected (ke Tim HR):** `status_badge: "DITOLAK"`
+1. **Status Disetujui ke Karyawan:** `status_badge: "DISETUJUI"`, `status_color: "#2f855a"`, `status_bg: "#f0fdf4"`, `status_border: "#bbf7d0"`
+2. **Status Disetujui ke Tim HR:** `status_badge: "DISETUJUI"`
+3. **Status Ditolak ke Karyawan:** `status_badge: "DITOLAK"`, `status_color: "#c53030"`, `status_bg: "#fff5f5"`, `status_border: "#fecaca"`
+4. **Status Ditolak ke Tim HR:** `status_badge: "DITOLAK"`
 
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `form_edition_url` | `string` | **Ya** | URL ilustrasi banner (`assets/formEditionIcon.png`). |
-| `preheader_text` | `string` | **Ya** | Teks preview inbox. Contoh: `Pengajuan Cuti Tahunan Anda telah disetujui.` |
-| `banner_title` | `string` | **Ya** | Judul banner. Contoh: `Pengajuan Disetujui` atau `Status Pengajuan Ditolak` |
-| `banner_description` | `string` | **Ya** | Deskripsi banner. Contoh: `Pengajuan Anda telah diproses oleh atasan.` |
-| `recipient_name` | `string` | **Ya** | Nama penerima email pada salam pembuka. Contoh: `Alexander Christian` atau `Tim HR` |
-| `intro_message` | `string` | **Ya** | Kalimat pengantar. Contoh: `Berikut adalah pembaruan status terkait pengajuan yang telah ditinjau.` |
-| `employee_name` | `string` | **Ya** | Nama lengkap karyawan pemohon. |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
-| `employment_type` | `string` | **Ya** | Status kepegawaian. Contoh: `Full-time (PKWTT)` |
-| `status_badge` | `string` | **Ya** | Label status pill: `DISETUJUI` atau `DITOLAK` |
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `form_edition_url` | `string` | **Ya** | `assets/formEditionIcon.png` |
+| `preheader_text` | `string` | **Ya** | Teks preview inbox. |
+| `banner_title` | `string` | **Ya** | Contoh: `Pengajuan Disetujui` atau `Status Pengajuan Ditolak` |
+| `banner_description` | `string` | **Ya** | Contoh: `Pengajuan Anda telah diproses oleh atasan.` |
+| `recipient_name` | `string` | **Ya** | Contoh: `Alexander Christian` atau `Tim HR` |
+| `intro_message` | `string` | **Ya** | Kalimat pengantar detail status. |
+| `employee_name` | `string` | **Ya** | Nama karyawan pemohon. |
+| `position` | `string` | **Ya** | Posisi karyawan pemohon. |
+| `employment_type` | `string` | **Ya** | Tipe kepegawaian. |
+| `status_badge` | `string` | **Ya** | `DISETUJUI` atau `DITOLAK` |
 | `status_color` | `string` | Opsional | Warna teks badge (Hijau: `#2f855a`, Merah: `#c53030`). Default: `#2f855a` |
 | `status_bg` | `string` | Opsional | Background badge (Hijau: `#f0fdf4`, Merah: `#fff5f5`). Default: `#f0fdf4` |
 | `status_border` | `string` | Opsional | Border badge (Hijau: `#bbf7d0`, Merah: `#fecaca`). Default: `#bbf7d0` |
-| `submission_type` | `string` | **Ya** | Jenis formulir. Contoh: `Cuti Tahunan`, `Klaim Rawat Jalan`, `Lembur Proyek` |
+| `submission_type` | `string` | **Ya** | Contoh: `Cuti Tahunan`, `Klaim Rawat Jalan`, `Lembur Proyek` |
 | `submission_date` | `string` | **Ya** | Tanggal pengajuan dibuat. Contoh: `15 Okt 2026` |
-| `processed_by` | `string` | **Ya** | Nama atasan yang memproses. Contoh: `Budi Santoso (Engineering Lead)` |
-| `decision_date` | `string` | **Ya** | Tanggal persetujuan/penolakan. Contoh: `16 Okt 2026` |
-| `approval_notes` | `string` | **Ya** | Catatan atasan atau alasan penolakan. Contoh: `Disetujui, silakan atur handover pekerjaan.` |
-| `view_detail_url` | `string` | **Ya** | URL tombol CTA "Lihat Detail Pengajuan". Contoh: `https://ezyhrm.id/requests/123` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+| `processed_by` | `string` | **Ya** | Nama approver. Contoh: `Budi Santoso (Engineering Lead)` |
+| `decision_date` | `string` | **Ya** | Tanggal keputusan. Contoh: `16 Okt 2026` |
+| `approval_notes` | `string` | **Ya** | Catatan persetujuan atau alasan penolakan. |
+| `view_detail_url` | `string` | **Ya** | URL tombol CTA "Lihat Detail Pengajuan". |
 
 ---
 
-## 📋 9. Template: `payslip-published-to-employee.html`
+## 📋 7. Template: `payslip-published-to-employee.html`
 > **Penerima:** Karyawan (`employee_email`)  
-> **Tujuan:** Notifikasi bahwa slip gaji resmi periode tertentu telah terbit dan siap diunduh melalui portal EzyHRM.
+> **Tujuan:** Notifikasi bahwa slip gaji resmi telah terbit dan siap diunduh melalui portal EzyHRM.
 
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `job_profile_url` | `string` | **Ya** | URL ilustrasi profil pekerjaan (`assets/jobProfileIcon.png`). |
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `job_profile_url` | `string` | **Ya** | `assets/jobProfileIcon.png` |
 | `employee_name` | `string` | **Ya** | Nama lengkap karyawan penerima slip gaji. |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
+| `position` | `string` | **Ya** | Posisi karyawan. |
 | `employment_type` | `string` | **Ya** | Status kepegawaian. |
-| `payroll_period` | `string` | **Ya** | Periode bulan & tahun penggajian. Contoh: `Oktober 2026` |
-| `payment_date` | `string` | **Ya** | Tanggal payroll ditransfer. Contoh: `25 Okt 2026` |
-| `bank_account` | `string` | **Ya** | Informasi rekening tujuan. Contoh: `BCA •••• 5678` |
+| `payroll_period` | `string` | **Ya** | Periode bulan & tahun. Contoh: `Oktober 2026` |
+| `payment_date` | `string` | **Ya** | Tanggal ditransfer. Contoh: `25 Okt 2026` |
+| `bank_account` | `string` | **Ya** | Rekening tujuan. Contoh: `BCA •••• 5678` |
 | `payment_status` | `string` | **Ya** | Status transfer. Contoh: `Berhasil Ditransfer` |
-| `payroll_type` | `string` | **Ya** | Tipe penggajian. Contoh: `Gaji Reguler Bulanan` atau `THR / Bonus` |
-| `payroll_notes` | `string` | **Ya** | Catatan tim finance/payroll. Contoh: `Dokumen slip gaji resmi terenkripsi demi keamanan data privasi Anda.` |
-| `download_payslip_url`| `string` | **Ya** | URL tombol CTA "Lihat & Unduh Slip Gaji". Contoh: `https://ezyhrm.id/payroll/payslips/2026-10` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+| `payroll_type` | `string` | **Ya** | Contoh: `Gaji Reguler Bulanan` atau `THR / Bonus` |
+| `payroll_notes` | `string` | **Ya** | Catatan keamanan dokumen slip gaji. |
+| `download_payslip_url`| `string` | **Ya** | URL tombol CTA "Lihat & Unduh Slip Gaji". |
 
 ---
 
-## 📋 10. Template: `contract-end-notification.html` (Master Notifikasi Kontrak)
+## 📋 8. Template: `contract-end-notification.html` (Master Kontrak)
 > **Penerima:** Manager / Approver / Tim HR  
-> **Tujuan:** Notifikasi peringatan masa berakhirnya kontrak kerja karyawan (PKWT), pengingat evaluasi (*reminder*), serta pemberitahuan kontrak berakhir (*expired*).
+> **Tujuan:** Master notifikasi peringatan kontrak kerja PKWT (Pemberitahuan Baru H-30/60, Reminder H-14/7, dan Expired pada hari H).
 
-### Skenario yang Didukung (5 Email):
-1. **Contract end - New notification (MANAGER):** Peringatan awal (H-30 / H-60) kepada Manager untuk evaluasi performa karyawan.
-2. **Contract end - New notification (APPROVER & HR):** Peringatan awal kepada atasan & HR untuk menyiapkan administrasi evaluasi.
-3. **Contract end - Reminder (APPROVER):** Pengingat tindak lanjut (H-14 / H-7) kepada atasan.
-4. **Contract end - Reminder (HR):** Pengingat tindak lanjut (H-14 / H-7) kepada HR.
-5. **Contract end - Expired (HR):** Notifikasi resmi per hari ini bahwa masa kontrak karyawan telah berakhir (*status: Expired*).
-
-### Binding Variabel (Data Contract):
-
+### Binding Variabel:
 | Nama Variabel | Tipe Data | Wajib? | Keterangan & Contoh Nilai |
 | :--- | :--- | :--- | :--- |
-| `logo_url` | `string` | **Ya** | URL logo EzyHRM (`assets/ezyhrmLogo.png`). |
-| `union1_url` | `string` | **Ya** | Icon dekoratif aksen atas (`assets/union1.png`). |
-| `union2_url` | `string` | **Ya** | Icon dekoratif aksen bawah (`assets/union2.png`). |
-| `job_profile_url` | `string` | **Ya** | URL ilustrasi banner (`assets/jobProfileIcon.png`). |
-| `preheader_text` | `string` | **Ya** | Teks preview inbox. Contoh: `Masa kontrak kerja karyawan akan segera berakhir.` |
-| `banner_title` | `string` | **Ya** | Judul banner. Contoh: `Pemberitahuan Masa Kontrak` / `Pengingat Kontrak Kerja` / `Kontrak Kerja Berakhir` |
-| `banner_description` | `string` | **Ya** | Deskripsi banner. Contoh: `Informasi masa berakhir kontrak kerja PKWT untuk evaluasi perpanjangan.` |
-| `recipient_name` | `string` | **Ya** | Nama penerima: `Bpk/Ibu [Nama Manager]` / `Tim HR` |
-| `intro_message` | `string` | **Ya** | Kalimat pengantar detail sesuai skenario (New/Reminder/Expired). |
+| `logo_url`, `union1_url`, `union2_url`, `support_url`, `year` | Global | **Ya** | Brand assets. |
+| `job_profile_url` | `string` | **Ya** | `assets/jobProfileIcon.png` |
+| `preheader_text` | `string` | **Ya** | Teks preview inbox. |
+| `banner_title` | `string` | **Ya** | Contoh: `Pemberitahuan Masa Kontrak` / `Pengingat Masa Kontrak Kerja` / `Kontrak Kerja Berakhir` |
+| `banner_description` | `string` | **Ya** | Deskripsi banner sesuai status evaluasi. |
+| `recipient_name` | `string` | **Ya** | Contoh: `Bpk/Ibu [Nama Manager]` / `Tim HR` |
+| `intro_message` | `string` | **Ya** | Kalimat pengantar detail. |
 | `employee_name` | `string` | **Ya** | Nama karyawan yang bersangkutan. |
-| `position` | `string` | **Ya** | Posisi / Jabatan karyawan. |
-| `employment_type` | `string` | **Ya** | Tipe kepegawaian. Contoh: `PKWT (Kontrak)` |
+| `position` | `string` | **Ya** | Posisi karyawan. |
+| `employment_type` | `string` | **Ya** | Contoh: `PKWT (Kontrak)` |
 | `contract_start_date`| `string` | **Ya** | Tanggal awal kontrak kerja. Contoh: `01 Nov 2025` |
 | `contract_end_date` | `string` | **Ya** | Tanggal akhir kontrak kerja. Contoh: `31 Okt 2026` |
 | `remaining_days` | `string` | **Ya** | Sisa hari aktif. Contoh: `30 Hari Lagi`, `7 Hari Lagi`, `Berakhir Hari Ini` |
-| `contract_status` | `string` | **Ya** | Status tindak lanjut. Contoh: `Perlu Evaluasi Perpanjangan` atau `Expired` |
-| `department` | `string` | **Ya** | Departemen/Divisi karyawan. Contoh: `Technology & Engineering` |
+| `contract_status` | `string` | **Ya** | Contoh: `Perlu Evaluasi Perpanjangan` atau `Expired` |
+| `department` | `string` | **Ya** | Departemen/Divisi karyawan. |
 | `contract_notes` | `string` | **Ya** | Catatan tambahan HR / PIC. |
-| `contract_action_url`| `string` | **Ya** | URL tombol CTA "Tinjau Status Kontrak". Contoh: `https://ezyhrm.id/contracts/evaluations/789` |
-| `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
-| `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
+| `contract_action_url`| `string` | **Ya** | URL tombol CTA "Tinjau Status Kontrak". |
 
 ---
 
-## 🚀 Contoh Implementasi di NestJS
+## 🚀 Contoh Implementasi Bersih di NestJS
 
-Jika backend menggunakan modul **`@nestjs-modules/mailer`** dengan template engine **Handlebars (`hbs`)**, berikut contoh implementasi pada Service:
+Berikut contoh implementasi `NotificationService` yang ringkas, bersih, dan menangani seluruh skenario menggunakan modul `@nestjs-modules/mailer`:
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -419,13 +264,11 @@ export class NotificationService {
 
   private readonly cdnBase = process.env.CDN_BASE_URL || 'https://cdn.ezyhrm.id/assets';
   private readonly appUrl = process.env.APP_URL || 'https://ezyhrm.id';
-  
-  // URL Portal Bantuan IT RMA Service Desk
   private readonly supportPortalUrl =
     'https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133';
 
   /**
-   * Helper untuk menyisipkan aset brand bersama (Logo & Aksen Hijau)
+   * Helper Brand Assets Global
    */
   private getBrandAssets() {
     return {
@@ -438,7 +281,7 @@ export class NotificationService {
   }
 
   /**
-   * 1. Kirim Email ke Karyawan Baru (Welcome & Onboarding)
+   * 1. Kirim Email Selamat Datang & Kredensial ke Karyawan Baru
    */
   async sendWelcomeEmployeeEmail(employee: { name: string; email: string; tempPass: string }) {
     await this.mailerService.sendMail({
@@ -457,7 +300,7 @@ export class NotificationService {
   }
 
   /**
-   * 2. Kirim Notifikasi ke Tim HR saat Karyawan Selesai Onboarding
+   * 2. Kirim Notifikasi Onboarding Selesai ke Tim HR
    */
   async sendOnboardingCompletedToHrEmail(data: {
     hrEmail: string;
@@ -480,7 +323,7 @@ export class NotificationService {
   }
 
   /**
-   * 3. Kirim Notifikasi Perubahan Kata Sandi ke Karyawan
+   * 3. Kirim Permintaan Reset Kata Sandi ke Karyawan
    */
   async sendChangePasswordEmail(employee: { name: string; email: string; resetToken: string }) {
     await this.mailerService.sendMail({
@@ -497,151 +340,113 @@ export class NotificationService {
   }
 
   /**
-   * 4. Kirim Notifikasi Permintaan Persetujuan Cuti ke Approver
+   * 4. Kirim Pengajuan Apapun ke Approver (Cuti, Klaim, Lembur, Kehadiran, Profil)
    */
-  async sendLeaveRequestToApproverEmail(data: {
+  async sendRequestToApproverEmail(data: {
     approverEmail: string;
     approverName: string;
     employeeName: string;
     position: string;
     employmentType: string;
-    leaveType: string;
-    startDate: string;
-    endDate: string;
-    workingHours: string;
-    totalDays: string;
-    description: string;
-    leaveId: string | number;
+    submissionType: string; // 'Cuti', 'Klaim', 'Lembur', dll
+    bannerTitle: string;
+    bannerDesc: string;
+    fields: {
+      field1: { label: string; value: string };
+      field2: { label: string; value: string };
+      field3: { label: string; value: string };
+      field4?: { label: string; value: string };
+      field5: { label: string; value: string };
+      field6: { label: string; value: string };
+    };
+    ctaText: string;
+    approvalUrl: string;
   }) {
     await this.mailerService.sendMail({
       to: data.approverEmail,
-      subject: `Pengajuan Cuti Membutuhkan Persetujuan: ${data.employeeName} (${data.leaveType})`,
-      template: './leave-request-to-approver',
+      subject: `${data.bannerTitle}: ${data.employeeName}`,
+      template: './request-submission-to-approver',
       context: {
         ...this.getBrandAssets(),
         form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
+        preheader_text: `Pengajuan ${data.submissionType} baru dari ${data.employeeName} menunggu persetujuan Anda.`,
+        banner_title: data.bannerTitle,
+        banner_description: data.bannerDesc,
         approver_name: data.approverName,
+        intro_message: `Sebuah pengajuan ${data.submissionType} baru telah dikirimkan dan membutuhkan peninjauan Anda.`,
         employee_name: data.employeeName,
         position: data.position,
         employment_type: data.employmentType,
-        leave_type: data.leaveType,
-        start_date: data.startDate,
-        end_date: data.endDate,
-        working_hours: data.workingHours,
-        total_leave_days: data.totalDays,
-        leave_description: data.description,
-        approve_leave_url: `${this.appUrl}/leaves/approvals/${data.leaveId}`,
+        field1_label: data.fields.field1.label,
+        field1_value: data.fields.field1.value,
+        field2_label: data.fields.field2.label,
+        field2_value: data.fields.field2.value,
+        field3_label: data.fields.field3.label,
+        field3_value: data.fields.field3.value,
+        field4_label: data.fields.field4?.label || '',
+        field4_value: data.fields.field4?.value || '',
+        field5_label: data.fields.field5.label,
+        field5_value: data.fields.field5.value,
+        field6_label: data.fields.field6.label,
+        field6_value: data.fields.field6.value,
+        cta_text: data.ctaText,
+        approve_url: data.approvalUrl,
       },
     });
   }
 
   /**
-   * 5. Kirim Notifikasi Pembuatan Pengajuan Cuti ke Tim HR
+   * 5. Kirim Pemberitahuan Pengajuan Baru ke Tim HR (Informatif / Audit Log)
    */
-  async sendLeaveNotificationToHrEmail(data: {
+  async sendRequestNotificationToHrEmail(data: {
     hrEmail: string;
     employeeName: string;
     position: string;
     employmentType: string;
-    leaveType: string;
-    startDate: string;
-    endDate: string;
-    workingHours: string;
-    totalDays: string;
-    description: string;
+    submissionType: string;
+    bannerTitle: string;
+    bannerDesc: string;
+    fields: {
+      field1: { label: string; value: string };
+      field2: { label: string; value: string };
+      field3: { label: string; value: string };
+      field4?: { label: string; value: string };
+      field5: { label: string; value: string };
+      field6: { label: string; value: string };
+    };
   }) {
     await this.mailerService.sendMail({
       to: data.hrEmail,
-      subject: `Pengajuan Cuti Dibuat: ${data.employeeName} (${data.leaveType})`,
-      template: './leave-request-to-hr',
+      subject: `${data.bannerTitle}: ${data.employeeName}`,
+      template: './request-submission-to-hr',
       context: {
         ...this.getBrandAssets(),
         form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
+        preheader_text: `Pengajuan ${data.submissionType} baru telah dibuat oleh ${data.employeeName}.`,
+        banner_title: data.bannerTitle,
+        banner_description: data.bannerDesc,
+        intro_message: `Pemberitahuan bahwa pengajuan ${data.submissionType} baru telah masuk ke dalam sistem.`,
         employee_name: data.employeeName,
         position: data.position,
         employment_type: data.employmentType,
-        leave_type: data.leaveType,
-        start_date: data.startDate,
-        end_date: data.endDate,
-        working_hours: data.workingHours,
-        total_leave_days: data.totalDays,
-        leave_description: data.description,
+        field1_label: data.fields.field1.label,
+        field1_value: data.fields.field1.value,
+        field2_label: data.fields.field2.label,
+        field2_value: data.fields.field2.value,
+        field3_label: data.fields.field3.label,
+        field3_value: data.fields.field3.value,
+        field4_label: data.fields.field4?.label || '',
+        field4_value: data.fields.field4?.value || '',
+        field5_label: data.fields.field5.label,
+        field5_value: data.fields.field5.value,
+        field6_label: data.fields.field6.label,
+        field6_value: data.fields.field6.value,
       },
     });
   }
 
   /**
-   * 6. Kirim Notifikasi Permintaan Persetujuan Klaim ke Approver
-   */
-  async sendClaimRequestToApproverEmail(data: {
-    approverEmail: string;
-    approverName: string;
-    employeeName: string;
-    position: string;
-    employmentType: string;
-    claimType: string;
-    transactionDate: string;
-    claimDate: string;
-    totalAmount: string;
-    description: string;
-    claimId: string | number;
-  }) {
-    await this.mailerService.sendMail({
-      to: data.approverEmail,
-      subject: `Pengajuan Klaim Membutuhkan Persetujuan: ${data.employeeName} (${data.claimType})`,
-      template: './claim-request-to-approver',
-      context: {
-        ...this.getBrandAssets(),
-        form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
-        approver_name: data.approverName,
-        employee_name: data.employeeName,
-        position: data.position,
-        employment_type: data.employmentType,
-        claim_type: data.claimType,
-        transaction_date: data.transactionDate,
-        claim_date: data.claimDate,
-        total_claim_amount: data.totalAmount,
-        claim_description: data.description,
-        approve_claim_url: `${this.appUrl}/claims/approvals/${data.claimId}`,
-      },
-    });
-  }
-
-  /**
-   * 7. Kirim Notifikasi Pembuatan Pengajuan Klaim ke Tim HR
-   */
-  async sendClaimNotificationToHrEmail(data: {
-    hrEmail: string;
-    employeeName: string;
-    position: string;
-    employmentType: string;
-    claimType: string;
-    transactionDate: string;
-    claimDate: string;
-    totalAmount: string;
-    description: string;
-  }) {
-    await this.mailerService.sendMail({
-      to: data.hrEmail,
-      subject: `Pengajuan Klaim Dibuat: ${data.employeeName} (${data.claimType})`,
-      template: './claim-request-to-hr',
-      context: {
-        ...this.getBrandAssets(),
-        form_edition_url: `${this.cdnBase}/formEditionIcon.png`,
-        employee_name: data.employeeName,
-        position: data.position,
-        employment_type: data.employmentType,
-        claim_type: data.claimType,
-        transaction_date: data.transactionDate,
-        claim_date: data.claimDate,
-        total_claim_amount: data.totalAmount,
-        claim_description: data.description,
-      },
-    });
-  }
-
-  /**
-   * 8. Kirim Pembaruan Status Pengajuan (Approve / Reject ke Karyawan / HR)
+   * 6. Kirim Status Update (Approve / Reject ke Karyawan / HR)
    */
   async sendSubmissionStatusUpdateEmail(data: {
     recipientEmail: string;
@@ -690,7 +495,7 @@ export class NotificationService {
   }
 
   /**
-   * 9. Kirim Notifikasi Slip Gaji Diterbitkan ke Karyawan
+   * 7. Kirim Notifikasi Slip Gaji Terbit ke Karyawan
    */
   async sendPayslipPublishedEmail(data: {
     employeeEmail: string;
@@ -726,7 +531,7 @@ export class NotificationService {
   }
 
   /**
-   * 10. Kirim Notifikasi Masa Berakhir Kontrak Kerja (Manager / Approver / HR)
+   * 8. Kirim Notifikasi Masa Berakhir Kontrak (Manager, Approver, HR)
    */
   async sendContractEndNotificationEmail(data: {
     recipientEmail: string;
@@ -748,7 +553,7 @@ export class NotificationService {
     let intro = 'Sistem mencatat bahwa kontrak kerja karyawan di bawah ini akan segera berakhir.';
 
     if (data.scenario === 'REMINDER') {
-      bannerTitle = 'Pengingat Kontrak Kerja';
+      bannerTitle = 'Pengingat Masa Kontrak Kerja';
       bannerDesc = 'Pengingat evaluasi perpanjangan kontrak kerja karyawan yang mendekati jatuh tempo.';
       intro = 'Mohon segera lakukan tindak lanjut atau konfirmasi evaluasi kontrak kerja karyawan berikut.';
     } else if (data.scenario === 'EXPIRED') {
