@@ -180,6 +180,12 @@ Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam
 | `support_url` | `string` | **Ya** | URL portal bantuan: `https://it-rma.atlassian.net/servicedesk/customer/portal/1/group/133` |
 | `year` | `number` / `string` | Opsional | Tahun hak cipta di footer. Contoh: `2026` |
 
+> 💡 **Panduan Penggunaan Kembali (*Reusability*) untuk Modul Lain ke Approver:**  
+> Template ini dirancang sebagai **Master Blueprint untuk seluruh pengajuan yang membutuhkan persetujuan atasan**. Backend NestJS dapat langsung menggunakannya untuk:
+> * **Overtime (Pengajuan Lembur):** Ganti teks banner menjadi *"Permintaan Persetujuan Lembur"*, isi kolom dengan tanggal lembur, jam mulai, jam selesai, total jam lembur, dan alasan lembur.
+> * **Attendance (Koreksi Absensi):** Ganti teks banner menjadi *"Persetujuan Koreksi Kehadiran"*, isi kolom dengan tanggal absensi, jam masuk/pulang baru, dan alasan koreksi.
+> * **Data Profile Change (Perubahan Data Karyawan):** Ganti teks banner menjadi *"Persetujuan Pembaruan Data Profil"*, isi kolom dengan jenis data yang diubah, nilai lama, dan nilai baru.
+
 ---
 
 ## 📋 5. Template: `leave-request-to-hr.html`
@@ -215,6 +221,12 @@ Setiap template email memiliki elemen visual identitas brand EzyHRM yang seragam
 > **Catatan Teknis Template HR:**  
 > * Salam pembuka dibuat statis **`Halo Tim HR,`**.
 > * Template ini bersifat **informatif** (*FYI* / update status), sehingga **tidak memiliki tombol CTA persetujuan** (tindakan persetujuan dilakukan oleh Approver melalui Template 4).
+> 
+> 💡 **Panduan Penggunaan Kembali (*Reusability*) untuk Modul Lain ke HR:**  
+> Template ini juga berfungsi sebagai **Master Blueprint untuk seluruh pemberitahuan pengajuan baru ke Tim HR** (format informatif tanpa tombol aksi), termasuk:
+> * **Overtime Notification ke Tim HR:** Pemberitahuan bahwa ada pengajuan lembur yang telah dikirim ke atasan.
+> * **Attendance Notification ke Tim HR:** Pemberitahuan bahwa ada pengajuan koreksi absensi yang masuk.
+> * **Data Profile Notification ke Tim HR:** Pemberitahuan bahwa ada permintaan pembaruan data profil karyawan.
 
 ---
 
