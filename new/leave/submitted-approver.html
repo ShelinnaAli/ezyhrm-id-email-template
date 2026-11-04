@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -276,7 +276,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/formEditionIcon.png"
+                        src="{{form_edition_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -309,7 +309,7 @@
                     line-height: 1.5;
                   "
                 >
-                  Halo <strong>Nama Approver</strong>,
+                  Halo <strong>{{approver_name}}</strong>,
                 </p>
                 <p
                   style="
@@ -360,7 +360,7 @@
                                 margin: 0 0 4px 0;
                                 font-family:
                                   &quot;Inter&quot;, Arial, sans-serif;
-                                font-size: 10px;
+                                fontSize: 10px;
                                 color: #718096;
                               "
                             >
@@ -376,7 +376,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Alexander Christian
+                              {{employee_name}}
                             </p>
                           </td>
 
@@ -411,7 +411,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Senior Software Engineer
+                              {{position}}
                             </p>
                           </td>
 
@@ -446,7 +446,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Full-time (PKWTT)
+                              {{employment_type}}
                             </p>
                           </td>
                         </tr>
@@ -503,7 +503,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Cuti Tahunan
+                              {{leave_type}}
                             </p>
 
                             <!-- Tanggal Mulai -->
@@ -530,7 +530,7 @@
                                 color: #2d3748;
                               "
                             >
-                              10 Nov 2026
+                              {{start_date}}
                             </p>
 
                             <!-- Tanggal Selesai -->
@@ -557,7 +557,7 @@
                                 color: #2d3748;
                               "
                             >
-                              12 Nov 2026
+                              {{end_date}}
                             </p>
 
                             <!-- Sisa Kuota Cuti -->
@@ -582,7 +582,7 @@
                                 color: #2d3748;
                               "
                             >
-                              8 Hari
+                              {{remaining_quota}}
                             </p>
                           </td>
 
@@ -621,7 +621,7 @@
                                 color: #2d3748;
                               "
                             >
-                              3 Hari Kerja
+                              {{total_days}}
                             </p>
 
                             <!-- Deskripsi -->
@@ -647,7 +647,7 @@
                                 line-height: 1.5;
                               "
                             >
-                              Keperluan keluarga di luar kota.
+                              {{reason}}
                             </p>
                           </td>
                         </tr>

@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -275,7 +275,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/taskListRejectIcon.png"
+                        src="{{task_list_reject_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,7 +308,7 @@
                     line-height: 1.5;
                   "
                 >
-                  Halo <strong>Nama Employee</strong>,
+                  Halo <strong>{{recipient_name}}</strong>,
                 </p>
                 <p
                   style="
@@ -391,7 +391,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Cuti sakit
+                              {{leave_type}}
                             </p>
 
                             <!-- Tanggal mulai -->
@@ -418,7 +418,7 @@
                                 color: #2d3748;
                               "
                             >
-                              27 Mei 2026
+                              {{start_date}}
                             </p>
 
                             <!-- Tanggal selesai -->
@@ -443,7 +443,7 @@
                                 color: #2d3748;
                               "
                             >
-                              30 Mei 2026
+                              {{end_date}}
                             </p>
                           </td>
 
@@ -482,7 +482,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Penuh hari
+                              {{work_hours_duration}}
                             </p>
 
                             <!-- Total hari cuti -->
@@ -509,7 +509,7 @@
                                 color: #2d3748;
                               "
                             >
-                              3 hari
+                              {{total_days}}
                             </p>
 
                             <!-- Deskripsi cuti -->
@@ -535,9 +535,7 @@
                                 line-height: 1.5;
                               "
                             >
-                              Izin cuti karena sakit demam dan radang
-                              tenggorokan sejak 2 hari lalu, dan perlu melakukan
-                              pemeriksaan ulang malam ini
+                              {{reason}}
                             </p>
                           </td>
                         </tr>
@@ -649,7 +647,7 @@
                                 color: #2d3748;
                               "
                             >
-                              27 Mei 2026
+                              {{approval_date}}
                             </p>
                           </td>
 
@@ -686,7 +684,7 @@
                                 color: #2d3748;
                               "
                             >
-                              Marina Marin
+                              {{approver_name}}
                             </p>
                           </td>
                         </tr>
