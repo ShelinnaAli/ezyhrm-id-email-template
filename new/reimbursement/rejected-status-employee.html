@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -275,7 +275,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/taskListRejectIcon.png"
+                        src="{{task_list_reject_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,7 +308,7 @@
                     line-height: 1.5;
                   "
                 >
-                  Halo <strong>Nama Karyawan</strong>,
+                  Halo <strong>{{recipient_name}}</strong>,
                 </p>
                 <p
                   style="
@@ -388,9 +388,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Perjalanan bisnis
-                            </p>
+                            >{{claim_type}}</p>
 
                             <!-- Tanggal transaksi -->
                             <p
@@ -415,9 +413,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              2 Nov 2025
-                            </p>
+                            >{{transaction_date}}</p>
 
                             <!-- Tanggal pengajuan klaim -->
                             <p
@@ -440,9 +436,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              2 Nov 2025
-                            </p>
+                            >{{submission_date}}</p>
                           </td>
 
                           <!-- Spacer Antar Kolom -->
@@ -479,9 +473,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              IDR 90.000.000,00
-                            </p>
+                            >{{total_amount}}</p>
 
                             <!-- Deskripsi klaim -->
                             <p
@@ -505,9 +497,7 @@
                                 color: #4a5568;
                                 line-height: 1.5;
                               "
-                            >
-                              Perjalanan dinas ke Australia untuk studi banding proses pertanian menggunakan drone dan IoT lainnya
-                            </p>
+                            >{{description}}</p>
                           </td>
                         </tr>
                       </table>
@@ -617,9 +607,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              27 Mei 2026
-                            </p>
+                            >{{approval_date}}</p>
                           </td>
 
                           <!-- Spacer Antar Kolom -->
@@ -654,9 +642,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Garry Raymon
-                            </p>
+                            >{{approver_name}}</p>
                           </td>
                         </tr>
                       </table>
