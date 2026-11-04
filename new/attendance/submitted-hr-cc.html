@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -275,7 +275,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/formEditionClipboard.png"
+                        src="{{form_edition_clipboard_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,7 +308,7 @@
                     line-height: 1.5;
                   "
                 >
-                  Halo <strong>Tim HR/CC Nama Karyawan</strong>,
+                  Halo <strong>{{recipient_name}}</strong>,
                 </p>
                 <p
                   style="
@@ -371,9 +371,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Risyad Rafi
-                            </p>
+                            >{{employee_name}}</p>
                           </td>
 
                           <td
@@ -406,9 +404,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Junior mobile dev
-                            </p>
+                            >{{position}}</p>
                           </td>
 
                           <td
@@ -441,9 +437,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Kontrak
-                            </p>
+                            >{{employment_type}}</p>
                           </td>
                         </tr>
                       </table>
@@ -498,9 +492,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Waktu masuk &amp; pulang
-                            </p>
+                            >{{correction_type}}</p>
 
                             <!-- Tanggal absensi -->
                             <p
@@ -525,9 +517,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              2 Nov 2025
-                            </p>
+                            >{{attendance_date}}</p>
 
                             <!-- Waktu masuk -->
                             <p
@@ -552,9 +542,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              08:00 WIB
-                            </p>
+                            >{{clock_in_time}}</p>
 
                             <!-- Waktu pulang -->
                             <p
@@ -577,9 +565,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              17:00 WIB
-                            </p>
+                            >{{clock_out_time}}</p>
                           </td>
 
                           <!-- Spacer Antar Kolom -->
@@ -616,9 +602,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              8 jam
-                            </p>
+                            >{{total_work_hours}}</p>
 
                             <!-- Status absensi -->
                             <p
@@ -653,9 +637,7 @@
                                   text-transform: uppercase;
                                   letter-spacing: 0.5px;
                                 "
-                              >
-                                TELAT
-                              </span>
+                              >{{attendance_status}}</span>
                             </div>
 
                             <!-- Deskripsi koreksi absen -->
@@ -680,9 +662,7 @@
                                 color: #4a5568;
                                 line-height: 1.5;
                               "
-                            >
-                              Terlambat karena terkendala di krl, terdapat kecelakaaan rel keluar jalur sehingga terjebak di kereta selama 2 jam
-                            </p>
+                            >{{reason}}</p>
                           </td>
                         </tr>
                       </table>
