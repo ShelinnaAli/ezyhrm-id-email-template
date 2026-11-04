@@ -177,7 +177,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -218,14 +218,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url(&quot;../assets/left-border-custom.png&quot;);
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -276,7 +276,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../assets/moneyWalletIcon.png"
+                        src="{{money_wallet_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,9 +308,7 @@
                     color: #2d3748;
                     line-height: 1.5;
                   "
-                >
-                  Halo <strong>Nama Karyawan</strong>,
-                </p>
+                >Halo <strong>{{employee_name}}</strong>,</p>
                 <p
                   style="
                     margin: 0;
@@ -389,9 +387,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              01 - 31 Mei 2026
-                            </p>
+                            >{{payroll_period}}</p>
                           </td>
 
                           <!-- Spacer -->
@@ -425,9 +421,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              20 April - 20 Mei 2026
-                            </p>
+                            >{{cutoff_period}}</p>
                           </td>
                         </tr>
                       </table>
@@ -487,7 +481,7 @@
                         <v:roundrect
                           xmlns:v="urn:schemas-microsoft-com:vml"
                           xmlns:w="urn:schemas-microsoft-com:office:word"
-                          href="https://ezyhrm.id/payslip"
+                          href="{{download_payslip_url}}"
                           style="
                             height: 44px;
                             v-text-anchor: middle;
@@ -512,7 +506,7 @@
                       <![endif]-->
                       <!--[if !mso]><!-- -->
                       <a
-                        href="https://ezyhrm.id/payslip"
+                        href="{{download_payslip_url}}"
                         target="_blank"
                         class="button-link"
                         style="
