@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -275,7 +275,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/formEditionClipboard.png"
+                        src="{{form_edition_clipboard_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,7 +308,7 @@
                     line-height: 1.5;
                   "
                 >
-                  Halo <strong>Tim HR/CC Nama Karyawan</strong>,
+                  Halo <strong>{{recipient_name}}</strong>,
                 </p>
                 <p
                   style="
@@ -371,9 +371,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Risyad Rafi
-                            </p>
+                            >{{employee_name}}</p>
                           </td>
 
                           <td
@@ -406,9 +404,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Junior mobile dev
-                            </p>
+                            >{{position}}</p>
                           </td>
 
                           <td
@@ -441,9 +437,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Kontrak
-                            </p>
+                            >{{employment_type}}</p>
                           </td>
                         </tr>
                       </table>
@@ -529,322 +523,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <!-- Row 1: Nama karyawan -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Nama karyawan
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f4f4f4;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Risyad Rafi
-                            </td>
-                          </tr>
-
-                          <!-- Row 2: Tanggal lahir -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #fafafa;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Tanggal lahir
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #e6e6e6;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f2fbeb;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              09 September 1990
-                            </td>
-                          </tr>
-
-                          <!-- Row 3: Jenis kelamin -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Jenis kelamin
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f4f4f4;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Laki-laki
-                            </td>
-                          </tr>
-
-                          <!-- Row 4: Race -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #fafafa;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Race
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #e6e6e6;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f2fbeb;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Tionghoa
-                            </td>
-                          </tr>
-
-                          <!-- Row 5: Agama -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Agama
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f4f4f4;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Buddha
-                            </td>
-                          </tr>
-
-                          <!-- Row 6: Status pernikahan -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #fafafa;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Status pernikahan
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #e6e6e6;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f2fbeb;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Belum menikah
-                            </td>
-                          </tr>
-
-                          <!-- Row 7: Kewarganegaraan -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Kewarganegaraan
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f4f4f4;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #ffffff;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                                border-bottom: 1px solid #f0f0f0;
-                              "
-                            >
-                              Tiongkok
-                            </td>
-                          </tr>
-
-                          <!-- Row 8: Tempat lahir -->
-                          <tr>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #fafafa;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                              "
-                            >
-                              Tempat lahir
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #e6e6e6;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #718096;
-                              "
-                            >
-                              -
-                            </td>
-                            <td
-                              style="
-                                padding: 10px 12px;
-                                background-color: #f2fbeb;
-                                font-family: 'Inter', Arial, sans-serif;
-                                font-size: 11px;
-                                color: #2d3748;
-                              "
-                            >
-                              Tiongkok
-                            </td>
-                          </tr>
+{{update_table_rows}}
                         </tbody>
                       </table>
                     </td>
