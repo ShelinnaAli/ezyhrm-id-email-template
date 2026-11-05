@@ -360,7 +360,7 @@
                                 margin: 0 0 4px 0;
                                 font-family:
                                   &quot;Inter&quot;, Arial, sans-serif;
-                                fontSize: 10px;
+                                font-size: 10px;
                                 color: #718096;
                               "
                             >
@@ -547,33 +547,6 @@
                             </p>
                             <p
                               style="
-                                margin: 0 0 12px 0;
-                                padding-bottom: 12px;
-                                border-bottom: 0.5px solid #e6e6e6;
-                                font-family:
-                                  &quot;Inter&quot;, Arial, sans-serif;
-                                font-size: 10px;
-                                font-weight: 600;
-                                color: #2d3748;
-                              "
-                            >
-                              {{end_date}}
-                            </p>
-
-                            <!-- Sisa Kuota Cuti -->
-                            <p
-                              style="
-                                margin: 0 0 4px 0;
-                                font-family:
-                                  &quot;Inter&quot;, Arial, sans-serif;
-                                font-size: 10px;
-                                color: #718096;
-                              "
-                            >
-                              Sisa Kuota Cuti
-                            </p>
-                            <p
-                              style="
                                 margin: 0;
                                 font-family:
                                   &quot;Inter&quot;, Arial, sans-serif;
@@ -582,7 +555,7 @@
                                 color: #2d3748;
                               "
                             >
-                              {{remaining_quota}}
+                              {{end_date}}
                             </p>
                           </td>
 
@@ -597,6 +570,33 @@
 
                           <!-- Kolom Kanan -->
                           <td width="48%" class="stack-column" valign="top">
+                            <!-- Durasi jam kerja -->
+                            <p
+                              style="
+                                margin: 0 0 4px 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                color: #718096;
+                              "
+                            >
+                              Durasi jam kerja
+                            </p>
+                            <p
+                              style="
+                                margin: 0 0 12px 0;
+                                padding-bottom: 12px;
+                                border-bottom: 0.5px solid #e6e6e6;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                font-weight: 600;
+                                color: #2d3748;
+                              "
+                            >
+                              {{work_hours_duration}}
+                            </p>
+
                             <!-- Total Hari Cuti -->
                             <p
                               style="
