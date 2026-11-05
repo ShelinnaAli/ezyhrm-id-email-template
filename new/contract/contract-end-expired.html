@@ -176,7 +176,7 @@
                   style="text-decoration: none"
                 >
                   <img
-                    src="../../assets/ezyhrmLogo.png"
+                    src="{{logo_url}}"
                     alt="EzyHRM"
                     width="120"
                     style="
@@ -217,14 +217,14 @@
                         padding: 0;
                         overflow: hidden;
                         background-color: #497f1b;
-                        background-image: url('../../assets/left-border-custom.png');
+                        background-image: url('{{left_border_url}}');
                         background-repeat: repeat-y;
                         background-position: left top;
                         background-size: 60px auto;
                       "
                     >
                       <img
-                        src="../../assets/left-border-custom.png"
+                        src="{{left_border_url}}"
                         alt=""
                         width="60"
                         style="
@@ -275,7 +275,7 @@
                       style="padding-right: 14px; vertical-align: middle"
                     >
                       <img
-                        src="../../assets/jobProfileExclamationIcon.png"
+                        src="{{job_profile_icon_url}}"
                         alt="Illustration"
                         width="105"
                         style="
@@ -308,9 +308,7 @@
                     color: #2d3748;
                     line-height: 1.5;
                   "
-                >
-                  Halo Tim HR,
-                </p>
+                >Halo <strong>{{recipient_name}}</strong>,</p>
                 <p
                   style="
                     margin: 0;
@@ -378,9 +376,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Risyad Rafi
-                            </p>
+                            >{{employee_name}}</p>
                           </td>
 
                           <td
@@ -413,9 +409,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Junior mobile dev
-                            </p>
+                            >{{position}}</p>
                           </td>
 
                           <td
@@ -448,9 +442,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Kontrak
-                            </p>
+                            >{{employment_type}}</p>
                           </td>
                         </tr>
                       </table>
@@ -504,9 +496,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              26 Juni 2025
-                            </p>
+                            >{{end_date}}</p>
                           </td>
 
                           <!-- Spacer -->
@@ -540,9 +530,7 @@
                                 font-weight: 600;
                                 color: #2d3748;
                               "
-                            >
-                              Diah Pertiwi
-                            </p>
+                            >{{hr_pic_name}}</p>
                           </td>
                         </tr>
                       </table>
@@ -707,7 +695,7 @@
                         <v:roundrect
                           xmlns:v="urn:schemas-microsoft-com:vml"
                           xmlns:w="urn:schemas-microsoft-com:office:word"
-                          href="https://ezyhrm.id/contract"
+                          href="{{contract_action_url}}"
                           style="
                             height: 46px;
                             v-text-anchor: middle;
@@ -732,7 +720,7 @@
                       <![endif]-->
                       <!--[if !mso]><!-- -->
                       <a
-                        href="https://ezyhrm.id/contract"
+                        href="{{contract_action_url}}"
                         target="_blank"
                         class="button-link"
                         style="
