@@ -323,7 +323,7 @@
               </td>
             </tr>
 
-            <!-- 4. CARD SECTION: DETAIL PENGAJUAN & DETAIL PERSETUJUAN -->
+            <!-- 4. CARD SECTION: DETAIL KARYAWAN, PENGAJUAN & STATUS -->
             <tr>
               <td style="padding: 0 30px 24px 30px" class="mobile-padding">
                 <table
@@ -333,14 +333,126 @@
                   cellspacing="0"
                   width="100%"
                   style="
-                    background-color: #f4f4f4;
                     border-radius: 4px;
                     overflow: hidden;
                     border: 1px solid #e2e8f0;
                   "
                 >
+                  <!-- 4A. Info Karyawan (Top Header: 3 Kolom) -->
                   <tr>
-                    <td style="padding: 16px">
+                    <td style="background-color: #ffffff; padding: 12px">
+                      <table
+                        role="presentation"
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        width="100%"
+                      >
+                        <tr>
+                          <!-- Kolom 1: Nama Karyawan -->
+                          <td width="32%" class="stack-column" valign="top">
+                            <p
+                              style="
+                                margin: 0 0 4px 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                color: #718096;
+                              "
+                            >
+                              Nama Karyawan
+                            </p>
+                            <p
+                              style="
+                                margin: 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                font-weight: 600;
+                                color: #2d3748;
+                              "
+                            >
+                              {{employee_name}}
+                            </p>
+                          </td>
+
+                          <td
+                            width="2%"
+                            class="stack-column stack-spacer"
+                            style="font-size: 1px; line-height: 1px"
+                          >
+                            &nbsp;
+                          </td>
+
+                          <!-- Kolom 2: Posisi / Jabatan -->
+                          <td width="32%" class="stack-column" valign="top">
+                            <p
+                              style="
+                                margin: 0 0 4px 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                color: #718096;
+                              "
+                            >
+                              Posisi / Jabatan
+                            </p>
+                            <p
+                              style="
+                                margin: 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                font-weight: 600;
+                                color: #2d3748;
+                              "
+                            >
+                              {{position}}
+                            </p>
+                          </td>
+
+                          <td
+                            width="2%"
+                            class="stack-column stack-spacer"
+                            style="font-size: 1px; line-height: 1px"
+                          >
+                            &nbsp;
+                          </td>
+
+                          <!-- Kolom 3: Tipe Karyawan -->
+                          <td width="32%" class="stack-column" valign="top">
+                            <p
+                              style="
+                                margin: 0 0 4px 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                color: #718096;
+                              "
+                            >
+                              Tipe Karyawan
+                            </p>
+                            <p
+                              style="
+                                margin: 0;
+                                font-family:
+                                  &quot;Inter&quot;, Arial, sans-serif;
+                                font-size: 10px;
+                                font-weight: 600;
+                                color: #2d3748;
+                              "
+                            >
+                              {{employment_type}}
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- 4B. Detail Pengajuan & Status -->
+                  <tr>
+                    <td style="background-color: #f4f4f4; padding: 16px">
                       <!-- Detail Pengajuan Header -->
                       <p
                         style="
